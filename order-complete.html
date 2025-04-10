@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>訂單完成 - 2ND BOOK</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/mycss.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap');
+
+        a {
+            text-decoration: none;
+        }
+
+        /* 設定整體背景 */
+        body {
+            background-color: var(--mycolor14);
+            font-family: "LXGW WenKai Mono TC", monospace;
+        }
+
+        .order-complete-section {
+            padding: 40px 0;
+        }
+
+        .order-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            height: 100%;
+            margin-bottom: 30px;
+        }
+
+        .order-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .order-icon {
+            font-size: 60px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        .order-details {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .product-image {
+            max-height: 120px;
+            object-fit: contain;
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .animate-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex: 1;
+        }
+
+        .step:not(:last-child):after {
+            content: '';
+            position: absolute;
+            top: 25px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background-color: #ddd;
+            z-index: 0;
+        }
+
+        .step.active:not(:last-child):after {
+            background-color: rgb(99, 31, 22);
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step.active .step-number {
+            background-color: rgb(99, 31, 22);
+            color: white;
+        }
+
+        .step-text {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .step.active .step-text {
+            color: rgb(99, 31, 22);
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 保留原有的Navbar -->
+    <section id="s02" class="bg-010">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg bg-010">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <i class="fa-solid fa-book fa-1x m-auto " style="color: var(--mycolor13);"></i>
+                        <i class="fa-solid fa-1x m-auto">
+                            <span style="color: var(--mycolor13); letter-spacing: 0.1em;">2nd BOOK</span>
+                        </i>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="fa-solid fa-list me-1"></i>書籍分類
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark  bg-010">
+                                    <li><a class="dropdown-item  bg-010" href="20250310-product.html?category=傳記">
+                                            <span style="color: var(--mycolor13);">傳記</a></span>
+                                    </li>
+                                    <li><a class="dropdown-item  bg-010" href="20250310-product.html?category=商業小說">
+                                            <span style="color: var(--mycolor13);">商業理財</a></span>
+                                    </li>
+                                    <li><a class="dropdown-item  bg-010" href="20250310-product.html?category=心理學">
+                                            <span style="color: var(--mycolor13);">心理學</a></span>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item bg-010" href="20250310-product.html?category=全部">
+                                            <span style="color: var(--mycolor13);">查看所有分類</span></a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-star me-1"></i>精選推薦</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-comments me-1"></i>聯絡我們</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="cart.html">
+                                    <i class="fas fa-shopping-cart"></i> 購物車
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown d-none" id="s02_member_btn">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false" style="color: var(--mycolor10);">
+                                    <span style="color: var(--mycolor13);" class="me-1"><i
+                                            class="fas fa-user-circle me-1"></i>會員專區 </span>
+                                </a>
+                                <ul class="dropdown-menu bg-010">
+                                    <li><a class="dropdown-item bg-010"
+                                            href="20250211-login-test_member_control_panel.html"><span
+                                                style="color: var(--mycolor13);">會員中心</span></a></li>
+                                    <li class="d-none" id="s02_upload_btn">
+                                        <a class="dropdown-item bg-010" href="20250218-test-C-product.html">
+                                            <span style="color: var(--mycolor13);">商品管理</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div>
+                            <span class="h5 mx-3 d-none position-relative" style="color: var(--mycolor13)"
+                                id="s02_username_showtext">
+                                <span class="h5 px-3 py-1 rounded-3" style="color: white; 
+                                             background: linear-gradient(45deg, var(--mycolor04), #ff6b6b);
+                                             box-shadow: 0 2px 5px rgba(0,0,0,0.1);" id="s02_username_text">XXX</span>
+                            </span>
+                            <botton class="btn bg-013 d-none me-3" data-bs-toggle="modal" data-bs-target="#logoutModal"
+                                id="s02_logout_btn">
+                                <span style="color: whitesmoke;">登出</span>
+                            </botton>
+                            <botton class="btn bg-012" data-bs-toggle="modal" data-bs-target="#registerModal"
+                                id="s02_reg_btn">
+                                <span style="color: whitesmoke;">註冊</span>
+                            </botton>
+                            <botton class="btn bg-011 me-3" data-bs-toggle="modal" data-bs-target="#loginModal"
+                                id="s02_login_btn">
+                                <span style="color: whitesmoke;">登入</span>
+                            </botton>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <!-- 訂單完成流程 -->
+    <div class="order-complete-section">
+        <div class="container">
+            <div class="steps-container">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <div class="step-text">填寫購買資料</div>
+                </div>
+                <div class="step active">
+                    <div class="step-number">2</div>
+                    <div class="step-text">完成訂購</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <div class="order-card animate-on-scroll">
+                        <div class="order-header">
+                            <div class="order-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h2 class="fw-600">感謝您的訂購！</h2>
+                            <p class="text-muted">您的訂單已經成功送出</p>
+                        </div>
+
+                        <div class="alert alert-success" role="alert">
+                            <strong>訂單編號: </strong><span id="order-id">N/A</span>
+                        </div>
+
+                        <div class="product-summary mb-4 d-none">
+                            <h4 class="fw-600 mb-3">商品資訊</h4>
+                            <div class="row align-items-center" id="product-info">
+                                <!-- 商品資訊將由JavaScript動態載入 -->
+                                <div class="text-center py-4">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">載入中...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-details">
+                            <h4 class="fw-600 mb-3">訂單詳情</h4>
+
+                            <div class="detail-row">
+                                <div>書名</div>
+                                <div id="book-names">載入中...</div>
+                            </div>
+
+                            <div class="detail-row">
+                                <div>訂購日期</div>
+                                <div id="order-date">載入中...</div>
+                            </div>
+
+                            <div class="detail-row">
+                                <div>付款方式</div>
+                                <div id="payment-method">載入中...</div>
+                            </div>
+
+                            <div class="detail-row">
+                                <div>配送方式</div>
+                                <div id="shipping-method">載入中...</div>
+                            </div>
+
+                            <div class="detail-row">
+                                <div>配送地址</div>
+                                <div id="shipping-address">載入中...</div>
+                            </div>
+
+                            <div class="detail-row">
+                                <div>商品金額</div>
+                                <div id="product-price">載入中...</div>
+                            </div>
+
+                            <div class="detail-row">
+                                <div>運費</div>
+                                <div id="shipping-fee">載入中...</div>
+                            </div>
+
+                            <div class="detail-row fw-bold">
+                                <div>總計</div>
+                                <div id="total-price" style="color: rgb(99, 31, 22);">載入中...</div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-5">
+                            <p>訂單確認信已發送至您的電子郵件，請查收</p>
+                            <div class="mt-4">
+                                <a href="20250211-login-test.html" class="btn btn-outline-secondary me-2">返回首頁</a>
+                                <a href="20250310-product.html?category=全部" class="btn bg-013 text-white">繼續購物</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 必要的JavaScript -->
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/cookie.js"></script>
+
+    <script>
+        // 金額配置（當API無返回值時使用）
+        const DEFAULT_CONFIG = {
+            productPrice: 465.00,
+            shippingFees: {
+                standard: 60.00,
+                express: 120.00,
+                pickup: 0.00,
+                default: 89.00
+            },
+            paymentMethods: {
+                'credit-card': '信用卡',
+                'transfer': '銀行轉帳',
+                'cash': '貨到付款',
+                'default': '信用卡'
+            },
+            shippingMethods: {
+                'standard': '標準配送 (3-5 個工作天)',
+                'express': '快速配送 (1-2 個工作天)',
+                'pickup': '門市取貨',
+                'default': '標準配送 (3-5 個工作天)'
+            }
+        };
+
+        // 獲取URL參數的函數
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // 格式化金額
+        function formatPrice(price) {
+            return '$' + parseFloat(price).toFixed(2);
+        }
+
+        // 取得並顯示CheckoutData數據
+        function getCheckoutData() {
+            try {
+                const storedData = sessionStorage.getItem('checkout_data');
+                if (storedData) {
+                    return JSON.parse(storedData);
+                }
+            } catch (e) {
+                console.log("無法解析結帳數據，使用預設值");
+            }
+            return null;
+        }
+
+        // 根據配送方式取得運費
+        function getShippingFeeByMethod(method) {
+            const fees = DEFAULT_CONFIG.shippingFees;
+            return fees[method] || fees.default;
+        }
+
+        // 載入訂單詳情
+        function loadOrderDetails() {
+            console.log("開始載入訂單詳情");
+            const orderId = getUrlParameter('order_id');
+            if (!orderId) {
+                Swal.fire({
+                    title: "錯誤",
+                    text: "找不到訂單資訊",
+                    icon: "error"
+                }).then(function () {
+                    window.location.href = "20250211-login-test.html";
+                });
+                return;
+            }
+
+            const uid01 = getCookie("Uid01");
+            if (!uid01) {
+                Swal.fire({
+                    title: "請先登入會員",
+                    icon: "info",
+                    allowOutsideClick: false
+                }).then(function () {
+                    location.href = "20250211-login-test.html";
+                });
+                return;
+            }
+
+            // 設置訂單編號
+            $("#order-id").text(orderId);
+
+            // 先從sessionStorage獲取結帳數據（如果有）
+            const checkoutData = getCheckoutData();
+
+            // 預設值設置（用於API數據缺失時）
+            // 設置訂單日期為當前日期
+            const now = new Date();
+            $("#order-date").text(now.toLocaleString());
+
+            // 從API獲取訂單信息
+            $.ajax({
+                type: "GET",
+                url: `20250211-webcontrol-.api.php?action=order_get&uid01=${uid01}&order_id=${orderId}`,
+                dataType: "json",
+                success: function (response) {
+                    console.log("API回應:", response);
+                    if (response.state) {
+                        const order = response.data;
+
+                        // 更新訂單日期
+                        if (order.order_date) {
+                            const orderDate = new Date(order.order_date);
+                            $("#order-date").text(orderDate.toLocaleString());
+                        }
+
+                        // 處理商品數據 - 預設使用 DEFAULT_CONFIG 中的值
+                        let productPrice = DEFAULT_CONFIG.productPrice;
+                        let shippingFee = DEFAULT_CONFIG.shippingFees.default;
+                        let totalAmount = productPrice + shippingFee;
+
+                        // 如果API傳回商品價格，則使用API值
+                        if (order.product_price !== undefined) {
+                            productPrice = parseFloat(order.product_price);
+                        } else if (order.items && order.items.length > 0) {
+                            // 如果有訂單項目，則計算總價
+                            productPrice = 0;
+                            order.items.forEach(item => {
+                                productPrice += parseFloat(item.price || 0);
+                            });
+                        } else if (order.total_amount !== undefined && order.shipping_fee !== undefined) {
+                            // 如果有總金額和運費，則計算商品金額
+                            productPrice = parseFloat(order.total_amount) - parseFloat(order.shipping_fee);
+                        }
+
+                        // 如果API傳回運費，則使用API值
+                        if (order.shipping_fee !== undefined) {
+                            shippingFee = parseFloat(order.shipping_fee);
+                        } else if (checkoutData && checkoutData.shipping_method) {
+                            // 從結帳數據獲取運費
+                            shippingFee = getShippingFeeByMethod(checkoutData.shipping_method);
+                        }
+
+                        // 如果API傳回總金額，則使用API值
+                        if (order.total_amount !== undefined) {
+                            totalAmount = parseFloat(order.total_amount);
+                        } else {
+                            // 否則計算總金額
+                            totalAmount = productPrice + shippingFee;
+                        }
+
+                        // 更新顯示
+                        $("#product-price").text(formatPrice(productPrice));
+                        $("#shipping-fee").text(formatPrice(shippingFee));
+                        $("#total-price").text(formatPrice(totalAmount));
+
+                        // 新增：更新書名資訊
+                        if (order.items && order.items.length > 0) {
+                            // 取出所有商品的 name 欄位
+                            const bookNames = order.items.map(item => item.name).join(", ");
+                            $("#book-names").text(bookNames);
+                        } else {
+                            $("#book-names").text("無商品資訊");
+                        }
+
+                        // 更新付款方式
+                        if (order.payment_method) {
+                            $("#payment-method").text(order.payment_method);
+                        } else if (checkoutData && checkoutData.payment_method) {
+                            const methodKey = checkoutData.payment_method;
+                            $("#payment-method").text(DEFAULT_CONFIG.paymentMethods[methodKey] || DEFAULT_CONFIG.paymentMethods.default);
+                        } else {
+                            $("#payment-method").text(DEFAULT_CONFIG.paymentMethods.default);
+                        }
+
+                        // 更新配送方式
+                        if (order.shipping_method) {
+                            $("#shipping-method").text(order.shipping_method);
+                        } else if (checkoutData && checkoutData.shipping_method) {
+                            const methodKey = checkoutData.shipping_method;
+                            $("#shipping-method").text(DEFAULT_CONFIG.shippingMethods[methodKey] || DEFAULT_CONFIG.shippingMethods.default);
+                        } else {
+                            $("#shipping-method").text(DEFAULT_CONFIG.shippingMethods.default);
+                        }
+
+                        // 更新配送地址
+                        if (order.shipping_address) {
+                            $("#shipping-address").text(order.shipping_address);
+                        } else if (checkoutData && checkoutData.shipping_address) {
+                            $("#shipping-address").text(checkoutData.shipping_address);
+                        } else {
+                            $("#shipping-address").text('台中市西屯區');
+                        }
+
+                    } else {
+                        console.log("獲取訂單資訊失敗:", response.message);
+
+                        // 使用預設值
+                        $("#book-names").text("無商品資訊");
+                        $("#payment-method").text(DEFAULT_CONFIG.paymentMethods.default);
+                        $("#shipping-method").text(DEFAULT_CONFIG.shippingMethods.default);
+                        $("#shipping-address").text('台中市西屯區');
+                        $("#product-price").text(formatPrice(DEFAULT_CONFIG.productPrice));
+                        $("#shipping-fee").text(formatPrice(DEFAULT_CONFIG.shippingFees.default));
+                        $("#total-price").text(formatPrice(DEFAULT_CONFIG.productPrice + DEFAULT_CONFIG.shippingFees.default));
+
+                        // 顯示錯誤提示
+                        Swal.fire({
+                            title: "無法載入訂單詳情",
+                            text: response.message || "請稍後再試",
+                            icon: "warning",
+                            confirmButtonText: "確定"
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("API請求失敗:", status, error);
+
+                    // 使用預設值
+                    $("#book-names").text("無商品資訊");
+                    $("#payment-method").text(DEFAULT_CONFIG.paymentMethods.default);
+                    $("#shipping-method").text(DEFAULT_CONFIG.shippingMethods.default);
+                    $("#shipping-address").text('台中市西屯區');
+                    $("#product-price").text(formatPrice(DEFAULT_CONFIG.productPrice));
+                    $("#shipping-fee").text(formatPrice(DEFAULT_CONFIG.shippingFees.default));
+                    $("#total-price").text(formatPrice(DEFAULT_CONFIG.productPrice + DEFAULT_CONFIG.shippingFees.default));
+
+                    // 顯示錯誤提示
+                    Swal.fire({
+                        title: "系統錯誤",
+                        text: "無法連接到伺服器，請稍後再試",
+                        icon: "error",
+                        confirmButtonText: "確定"
+                    });
+                }
+            });
+        }
+
+        // 頁面載入後執行
+        $(document).ready(function () {
+            // 載入訂單詳情
+            loadOrderDetails();
+
+            // 啟用滾動動畫
+            setTimeout(function () {
+                const animateElements = document.querySelectorAll('.animate-on-scroll');
+                animateElements.forEach(element => {
+                    element.classList.add('active');
+                });
+            }, 500);
+
+            // 確認uid01是否存在
+            if (getCookie("Uid01")) {
+                // 將uid01傳遞至後端API執行驗證
+                var JSONdata = {};
+                JSONdata["uid01"] = getCookie("Uid01");
+
+                $.ajax({
+                    type: "POST",
+                    url: "20250211-webcontrol-.api.php?action=checkuid",
+                    data: JSON.stringify(JSONdata),
+                    dataType: "json",
+                    success: showdata_checkuid,
+                    error: function () {
+                        Swal.fire({
+                            title: "API介接錯誤",
+                            text: "20250211-webcontrol-.api.php?action=checkuid",
+                            icon: "error"
+                        });
+                    }
+                });
+            }
+
+            // 在數據顯示完成後延遲清除sessionStorage
+            setTimeout(function () {
+                sessionStorage.removeItem('checkout_data');
+            }, 5000);
+        });
+
+        // 處理驗證身份的回應
+        function showdata_checkuid(data) {
+            if (data.state) {
+                // 顯示歡迎訊息
+                $("#s02_username_showtext").removeClass("d-none");
+                $("#s02_username_text").text(data.data.Username);
+
+                // 隱藏註冊與登入按鈕
+                $("#s02_reg_btn").addClass("d-none");
+                $("#s02_login_btn").addClass("d-none");
+
+                // 顯示登出按鈕
+                $("#s02_logout_btn").removeClass("d-none");
+
+                // 顯示會員中心按鈕
+                $("#s02_member_btn").removeClass("d-none");
+
+                // 根據用戶角色顯示或隱藏「商品上傳」選項
+                if (data.data.role === "seller") {
+                    $("#s02_upload_btn").removeClass("d-none");
+                } else {
+                    $("#s02_upload_btn").addClass("d-none");
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

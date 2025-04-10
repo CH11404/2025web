@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>購物車 - 2nd BOOK</title>
+    <!-- 載入 Bootstrap、Font Awesome 與 Animate.css -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/mycss.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- 載入 SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        /* 網站整體配色 */
+        body {
+            background-color: var(--mycolor14);
+        }
+
+        .navbar {
+            background-color: var(--mycolor10);
+        }
+
+        .navbar-brand {
+            color: var(--mycolor13) !important;
+        }
+
+        /* 購物車頁面樣式 */
+        .cart-container {
+            padding: 20px;
+            background-color: var(--mycolor01);
+            border: 1px solid var(--mycolor13);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--mycolor13);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-right: 20px;
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
+        }
+
+        .cart-item-details h5 {
+            color: var(--mycolor13);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-details p {
+            margin: 0;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .btn-remove {
+            background-color: var(--mycolor11);
+            border: none;
+            border-radius: 25px;
+            padding: 8px 15px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-remove:hover {
+            transform: scale(1.05);
+        }
+
+        .total-amount {
+            font-size: 1.2rem;
+            color: var(--mycolor13);
+        }
+
+        .card {
+            background-color: var(--mycolor01);
+            border: 2px solid var(--mycolor13);
+        }
+
+        .card-header {
+            background-color: var(--mycolor13);
+            color: #fff;
+        }
+
+        .btn-primary {
+            background-color: var(--mycolor13);
+            border-color: var(--mycolor13);
+        }
+
+        .btn-warning {
+            background-color: var(--mycolor11);
+            border-color: var(--mycolor11);
+        }
+
+        .list-group-item {
+            background-color: var(--mycolor01);
+            border: 1px solid var(--mycolor13);
+        }
+
+        .list-group-item strong {
+            color: var(--mycolor13);
+        }
+    </style>
+</head>
+
+<body>
+    <section id="s02" class="bg-010">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg bg-010">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <i class="fa-solid fa-book fa-1x m-auto" style="color: var(--mycolor13);"></i>
+                        <i class="fa-solid fa-1x m-auto">
+                            <span style="color: var(--mycolor13); letter-spacing: 0.1em;">2nd BOOK</span>
+                        </i>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="20250211-login-test.html"><i
+                                        class="fas fa-home me-1"></i>首頁</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="20250211-login-test_member_control_panel.html"
+                                    role="button" data-bs-toggle="dropdown">
+                                    <i class="fa-solid fa-list me-1"></i>書籍分類
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark bg-010">
+                                    <li>
+                                        <a class="dropdown-item bg-010" href="20250310-product.html?category=傳記">
+                                            <span style="color: var(--mycolor13);">傳記</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item bg-010" href="20250310-product.html?category=商業理財">
+                                            <span style="color: var(--mycolor13);">商業理財</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item bg-010" href="20250310-product.html?category=心理學">
+                                            <span style="color: var(--mycolor13);">心理學</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item bg-010" href="20250310-product.html?category=全部">
+                                            <span style="color: var(--mycolor13);">查看所有分類</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-star me-1"></i>精選推薦</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-comments me-1"></i>聯絡我們</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="cart.html">
+                                    <i class="fas fa-shopping-cart"></i> 購物車
+                                </a>
+                            <li class="nav-item dropdown d-none" id="s02_member_btn">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false" style="color: var(--mycolor10);">
+                                    <span style="color: var(--mycolor13);" class="me-1"><i
+                                            class="fas fa-user-circle me-1"></i>會員專區</span>
+                                </a>
+                                <ul class="dropdown-menu bg-010">
+                                    <li><a class="dropdown-item bg-010"
+                                            href="20250211-login-test_member_control_panel.html"><span
+                                                style="color: var(--mycolor13);">會員中心</span></a></li>
+                                    <li class="d-none" id="s02_upload_btn">
+                                        <a class="dropdown-item bg-010" href="20250218-test-C-product.html"><span
+                                                style="color: var(--mycolor13);">產品管理</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            </li>
+                        </ul>
+                        <div>
+                            <span class="h5 mx-3 d-none position-relative" style="color: var(--mycolor13)"
+                                id="s02_username_showtext">
+                                <span class="h5 px-3 py-1 rounded-3"
+                                    style="color: white; background: linear-gradient(45deg, var(--mycolor04), #ff6b6b); box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
+                                    id="s02_username_text">XXX</span>
+                            </span>
+                            <button class="btn bg-013 d-none me-3" data-bs-toggle="modal" data-bs-target="#logoutModal"
+                                id="s02_logout_btn">
+                                <span style="color: whitesmoke;">登出</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <!-- 購物車內容 -->
+    <div class="container">
+        <div class="cart-container">
+            <h3 style="color: var(--mycolor13);">我的購物車</h3>
+            <div id="cart-items">
+                <!-- 購物車項目將由 JavaScript 動態載入 -->
+                <p class="text-center">載入中...</p>
+            </div>
+            <div class="mt-3 d-flex justify-content-between align-items-center">
+                <h4 class="total-amount">總金額: $0.00</h4>
+                <button class="btn btn-primary" id="checkout-btn">結帳</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="js/cookie.js"></script>
+    <script>
+        // 假設已有 getCookie 函式
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+        // 取得會員識別碼 uid01
+        var uid01 = getCookie("Uid01");
+        // if (!uid01) {
+        //   Swal.fire({ title: "請先登入會員", icon: "info" });
+        //   // 可考慮導向登入頁面
+        // }
+
+        if (getCookie("Uid01")) {
+            var JSONdata = { "uid01": getCookie("Uid01") };
+            $.ajax({
+                type: "POST",
+                url: "20250211-webcontrol-.api.php?action=checkuid",
+                data: JSON.stringify(JSONdata),
+                dataType: "json",
+                success: function (data) {
+                    if (data.state) {
+                        $("#s02_username_showtext").removeClass("d-none");
+                        $("#s02_username_text").text(data.data.Username);
+                        $("#s02_member_btn").removeClass("d-none");
+                        $("#s02_logout_btn").removeClass("d-none");
+
+                        if (data.data.role === "seller") {
+                            $("#s02_upload_btn").removeClass("d-none");
+                        } else {
+                            $("#s02_upload_btn").addClass("d-none");
+                        }
+                    } else {
+                        Swal.fire({ title: "驗證失敗", icon: "error" });
+                    }
+                },
+                error: function () {
+                    Swal.fire({ title: "API介接錯誤", text: "無法取得使用者資料", icon: "error" });
+                }
+            });
+        } else {
+            Swal.fire({ title: "請先登入會員", icon: "info", allowOutsideClick: false })
+                .then(function () {
+                    location.href = "20250211-login-test.html";
+                });
+        }
+
+        // 載入購物車資料的函式 (呼叫 API: action=cart_get)
+        function loadCartItems() {
+            $.ajax({
+                type: "GET",
+                url: "20250211-webcontrol-.api.php",
+                data: { action: "cart_get", uid01: uid01 },
+                dataType: "json",
+                success: function (response) {
+                    if (response.state) {
+                        var items = response.data;
+                        var total = 0;
+                        var html = "";
+                        if (items.length === 0) {
+                            html = "<p class='text-center'>購物車沒有商品</p>";
+                        } else {
+                            $.each(items, function (index, item) {
+                                total += parseFloat(item.price);
+                                html += '<div class="cart-item" data-menu-id="' + item.menu_id + '">';
+                                html += '  <img src="/upload/' + item.thumbnail + '" alt="' + item.name + '">';
+                                html += '  <div class="cart-item-details">';
+                                html += '    <h5>' + item.name + '</h5>';
+                                html += '    <p>價格: $' + item.price + '</p>';
+                                html += '  </div>';
+                                html += '  <button class="btn btn-remove" data-menu-id="' + item.menu_id + '">移除</button>';
+                                html += '</div>';
+                            });
+                        }
+                        $("#cart-items").html(html);
+                        $(".total-amount").text("總金額: $" + total.toFixed(2));
+                    } else {
+                        $("#cart-items").html("<p class='text-center'>" + response.message + "</p>");
+                    }
+                },
+                error: function () {
+                    $("#cart-items").html("<p class='text-center'>載入購物車資料失敗</p>");
+                }
+            });
+        }
+
+        // 移除購物車項目 (呼叫 API: action=cart_delete)
+        $(document).on("click", ".btn-remove", function () {
+            var menuId = $(this).data("menu-id");
+            Swal.fire({
+                title: "確定要從購物車移除該商品嗎？",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "確定",
+                cancelButtonText: "取消"
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "20250211-webcontrol-.api.php?action=cart_delete",
+                        data: JSON.stringify({ uid01: uid01, menu_id: menuId }),
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.state) {
+                                Swal.fire({ title: "已從購物車移除", icon: "success" })
+                                    .then(function () {
+                                        loadCartItems();
+                                    });
+                            } else {
+                                Swal.fire({ title: "移除失敗: " + response.message, icon: "error" });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({ title: "移除商品 API 錯誤", icon: "error" });
+                        }
+                    });
+                }
+            });
+        });
+
+        // 顯示購物車商品
+        function displayCartItems(items) {
+            if (items.length === 0) {
+                $("#product-info").html("<p class='text-center'>購物車沒有商品</p>");
+                return;
+            }
+
+            var html = "";
+            var totalPrice = 0;
+
+            // 顯示所有購物車商品
+            items.forEach(function (item, index) {
+                totalPrice += parseFloat(item.price);
+
+                html += '<div class="mb-3 pb-3 border-bottom">';
+                html += '<div class="row align-items-center">';
+                html += '<div class="col-md-3 text-center mb-2 mb-md-0">';
+                html += '<img src="upload/' + item.thumbnail + '" alt="' + item.name + '" class="img-fluid product-image rounded">';
+                html += '</div>';
+                html += '<div class="col-md-9">';
+                html += '<h5 class="fw-600">' + item.name + '</h5>';
+                html += '<p class="text-muted mb-2">' + (item.category || "二手書") + '</p>';
+                html += '<div class="d-flex justify-content-between align-items-center">';
+                html += '<p class="fw-bold mb-0" style="color: black;">$' + item.price + '</p>';
+                html += '<span class="badge bg-013 badge-quantity">數量: 1</span>';
+                html += '</div></div></div></div>';
+            });
+
+            $("#product-info").html(html);
+            updateOrderSummary(totalPrice);
+        }
+
+
+        // 結帳按鈕點擊事件
+        $("#checkout-btn").click(function () {
+            console.log("結帳按鈕被點擊"); // 測試按鈕是否正常點擊
+            Swal.fire({
+                title: "確定要結帳嗎？",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "確定",
+                cancelButtonText: "取消"
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    console.log("用戶確認結帳，準備跳轉");
+                    console.log("UID:", uid01); // 檢查uid01是否有值
+                    // 使用絕對路徑進行跳轉
+                    window.location.href = window.location.origin + "/checkout.html?mode=cart&uid=" + uid01;
+                }
+            });
+        });
+
+
+
+
+        // 頁面載入時取得購物車內容
+        $(document).ready(function () {
+            loadCartItems();
+        });
+
+        // s02_logout_btn 按鈕監聽
+        $("#s02_logout_btn").click(function () {
+            setCookie("Uid01", "", 7);
+            location.href = "20250211-login-test.html";
+        });
+    </script>
+</body>
+
+</html>

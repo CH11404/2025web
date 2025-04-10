@@ -1,0 +1,407 @@
+
+@import url('https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap');
+
+
+
+
+:root{
+    /* 冷色 */
+    --mycolor01: #D1DDDB;
+    --mycolor02: #85B8CB;
+    --mycolor03: #1d6a96;
+    --mycolor04: rgb(40, 59, 66);
+    --mycolor09: #159d82;
+
+    
+    /* 鮮豔 */
+    --mycolor05: #FEB630;
+    --mycolor06: #F4C5D7;
+    --mycolor07: rgb(255, 68, 94);
+    --mycolor08: rgb(111, 146, 90);
+
+
+    --mycolor10: rgb(228, 218, 206);
+    --mycolor11: rgb(229, 187, 75);
+    --mycolor12: rgb(73, 142, 175);
+    --mycolor13: rgb(99, 31, 22);
+    --mycolor14: rgb(236, 228, 226);
+
+    --mycolor15: rgb(115, 9, 185);
+
+
+}
+
+/* 背景色 */
+.bg-001{
+    background-color: var(--mycolor01);
+}
+.bg-002{
+    background-color: var(--mycolor02);
+}
+.bg-003{
+    background-color: var(--mycolor03);
+}
+.bg-004{
+    background-color: var(--mycolor04);
+}
+.bg-005{
+    background-color: var(--mycolor05);
+}
+.bg-006{
+    background-color: var(--mycolor06);
+}
+.bg-007{
+    background-color: var(--mycolor07);
+}
+.bg-008{
+    background-color: var(--mycolor08);
+}
+.bg-009{
+    background-color: var(--mycolor09);
+}
+.bg-010{
+    background-color: var(--mycolor10);
+}
+.bg-011{
+    background-color: var(--mycolor11);
+}
+.bg-012{
+    background-color: var(--mycolor12);
+}
+.bg-013{
+    background-color: var(--mycolor13);
+}
+.bg-014{
+    background-color: var(--mycolor14);
+}
+/* 背景圖 */
+.bg-cover{
+    background-position: center center;
+    background-size: cover;
+}
+
+
+body
+        {
+            font-family: "LXGW WenKai Mono TC", monospace;
+        }
+
+/* 文字粗度 */
+.fw-100{
+    font-weight: 100;
+}
+.fw-200{
+    font-weight: 200;
+}
+.fw-300{
+    font-weight: 300;
+}
+.fw-400{
+    font-weight: 400;
+}
+.fw-500{
+    font-weight: 500;
+}
+.fw-600{
+    font-weight: 600;
+}
+.fw-700{
+    font-weight: 700;
+}
+.fw-800{
+    font-weight: 800;
+}
+.fw-900{
+    font-weight: 900;
+}
+
+
+/* 外層: .myroller 內層:.roller */
+/* 外層: .myroller 內層:.roller */
+.myrollerl{
+    position: relative;
+    overflow: hidden;
+}
+.myrollerl .rollerl {
+    position: absolute;
+    background-image: linear-gradient(90deg, rgba(99, 31, 22, 0.7), rgba(228, 218, 206, 0.8));
+    width: 100%;
+    height: 100%;
+    left: -100%;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.myrollerl:hover .rollerl {
+    left: 0;
+    transition: left 0.8s ease;
+}
+
+.myrollerr{
+    position: relative;
+    overflow: hidden;
+}
+.myrollerr .rollerr {
+    position: absolute;
+    background-image: linear-gradient(90deg, rgba(228, 218, 206, 0.8), rgba(99, 31, 22, 0.7));
+    width: 100%;
+    height: 100%;
+    right: -100%;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.myrollerr:hover .rollerr {
+    right: 0;
+    transition: right 0.8s ease;
+}
+
+.myrollert{
+    position: relative;
+    overflow: hidden;
+}
+.myrollert .rollert {
+    position: absolute;
+    background-image: linear-gradient(180deg, rgba(99, 31, 22, 0.7), rgba(228, 218, 206, 0.8));
+    width: 100%;
+    height: 100%;
+    top: -100%;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.myrollert:hover .rollert {
+    top: 0;
+    transition: top 0.8s ease;
+}
+
+.myrollerb{
+    position: relative;
+    overflow: hidden;
+}
+.myrollerb .rollerb {
+    position: absolute;
+    background-image: linear-gradient(0deg, rgba(99, 31, 22, 0.7), rgba(228, 218, 206, 0.8));
+    width: 100%;
+    height: 100%;
+    bottom: -100%;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.myrollerb:hover .rollerb {
+    bottom: 0;
+    transition: bottom 0.8s ease;
+}
+
+/* 新增按鈕hover效果 */
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(99, 31, 22, 0.3);
+    transition: all 0.3s ease;
+}
+
+/* 特定按鈕顏色hover效果優化 */
+.btn.bg-003:hover {
+    background-color: #1a5c80;
+}
+
+.btn.bg-005:hover {
+    background-color: #e9a620;
+}
+
+.btn.bg-007:hover {
+    background-color: #ff3a56;
+}
+
+.btn.bg-013:hover {
+    background-color: #7d271b;
+}
+
+/* 徽章hover效果 */
+.badge.hover-scale {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.badge.hover-scale:hover {
+    transform: scale(1.08);
+    box-shadow: 0 3px 8px rgba(99, 31, 22, 0.25);
+}
+
+/* 書籍卡片hover效果 */
+.book-card {
+    transition: all 0.4s ease;
+}
+.book-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(99, 31, 22, 0.15);
+}
+
+.book-thumb img {
+    transition: transform 0.5s ease;
+}
+.book-card:hover .book-thumb img {
+    transform: scale(1.08);
+}
+
+/* 書籍動作按鈕hover效果 */
+.book-actions .btn {
+    transition: all 0.3s ease;
+}
+
+.book-actions .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(99, 31, 22, 0.2);
+}
+
+/* 分類卡片hover效果 */
+.category-card {
+    transition: all 0.3s ease;
+}
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(99, 31, 22, 0.12);
+    border-bottom: 3px solid var(--mycolor13);
+}
+
+.category-icon {
+    transition: all 0.4s ease;
+}
+.category-card:hover .category-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* 搜尋按鈕hover效果 */
+.search-btn.hover-effect {
+    transition: all 0.3s ease;
+}
+.search-btn.hover-effect:hover {
+    background-color: #e9a620;
+    box-shadow: 0 0 12px rgba(254, 182, 48, 0.5);
+}
+
+/* 脈動hover效果優化 */
+@keyframes gentle-pulse {
+    0% {transform: scale(1);}
+    50% {transform: scale(1.03); box-shadow: 0 5px 15px rgba(99, 31, 22, 0.3);}
+    100% {transform: scale(1);}
+}
+
+.hover-pulse {
+    transition: all 0.3s ease;
+}
+.hover-pulse:hover {
+    animation: gentle-pulse 1.5s infinite;
+}
+
+
+
+
+/* 改進的脈動動畫效果 */
+@keyframes gentle-pulse {
+    0% {transform: scale(1);}
+    50% {transform: scale(1.05);}
+    100% {transform: scale(1);}
+}
+
+.hover-pulse:hover {
+    animation: gentle-pulse 1.5s infinite;
+    box-shadow: 0 0 15px rgba(254, 182, 48, 0.5);
+}
+
+/* 書籍卡片的Hover效果 */
+.book-card {
+    transition: all 0.4s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 22px rgba(73, 142, 175, 0.15);
+}
+
+.book-card:hover .book-thumb img {
+    transform: scale(1.08);
+    transition: transform 0.8s ease;
+}
+
+/* 分類卡片的Hover效果 */
+.category-card {
+    transition: all 0.4s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(99, 31, 22, 0.1);
+    background: linear-gradient(135deg, #fff, rgba(209, 221, 219, 0.4));
+}
+
+.category-icon {
+    transition: all 0.4s ease;
+}
+
+.category-card:hover .category-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+
+/* 設定輸入框 */
+.demo01 {
+    width: 90%;
+    border: 2px solid var(--mycolor04);
+    padding: 20px;
+    margin-top: 15px;
+}
+
+
+/* 
+table.table-rwd
+<td data-th="填寫欄位"> 
+<span class="abc">
+*/
+@media screen and (max-width:768px) 
+        {
+            /* body{
+                background-color:burlywood
+            } */
+            .table-rwd thead{
+                display: none;
+            }
+
+            .table-rwd tbody tr{
+                display: block;
+                border: 5px solid var(--mycolor03);
+                margin-top: 10px;
+
+            }
+            .table-rwd tbody tr td{
+                display: block;
+                overflow: hidden;
+            }
+            .table-rwd tbody tr td::before {
+                content: attr(data-th) " : ";
+                font-weight: 900;
+                color: var(--mycolor03);
+                font-size: 18px;
+                display: block;
+                float: left;
+                width: 30%;
+                text-align: center;
+                padding-right: 20px;
+            }
+            .table-rwd tbody tr td span.abc{
+                float:left;
+                display: block;
+                width: 70%;
+            }
+
+        }
+
+        .container-custom {
+            max-width: auto; /* 設定頁面最大寬度 */
+            margin: 0 auto; /* 水平置中 */
+            padding: 0 100px; /* 添加左右內邊距，避免貼邊 */
+        }

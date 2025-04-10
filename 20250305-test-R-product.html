@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的上傳商品後台</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="css/mycss.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        /* 設定整體背景 */
+        body {
+            background-color: var(--mycolor14);
+        }
+
+        /* 將表格標題背景調整為與 navbar 品牌文字相呼應 */
+        .table thead {
+            background-color: var(--mycolor13);
+            color: #ffffff;
+        }
+
+        /* 強調表格邊框 */
+        .table-bordered,
+        .table-bordered th,
+        .table-bordered td {
+            border: 2px solid var(--mycolor13) !important;
+        }
+
+        /* 讓表格內容置中 */
+        .table td,
+        .table th {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        /* Modal 標題背景與文字 */
+        .modal-header {
+            background-color: var(--mycolor13);
+            color: #ffffff;
+        }
+
+        /* 主按鈕樣式統一使用深棕色 */
+        .btn-primary {
+            background-color: var(--mycolor13);
+            border-color: var(--mycolor13);
+        }
+
+        /* 編輯按鈕 */
+        .btn-edit {
+            background-color: var(--mycolor12);
+            border-color: var(--mycolor12);
+            color: #fff;
+        }
+
+        /* 刪除按鈕 */
+        .btn-danger {
+            background-color: var(--mycolor07);
+            border-color: var(--mycolor07);
+        }
+    </style>
+
+</head>
+
+<body>
+    <section id="s02" class="bg-010">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg bg-010">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <i class="fa-solid fa-book fa-1x m-auto" style="color: var(--mycolor13);"></i>
+                        <span style="color: var(--mycolor13); letter-spacing: 0.1em;">產品管理介面</span>
+                    </a>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" style="color: var(--mycolor13);"
+                                    href="20250211-login-test.html">首頁</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" style="color: var(--mycolor13);"
+                                    href="20250218-test-C-product.html">產品建檔</a>
+                            </li>
+                            <li class="nav-item d-none" id="s02_member_btn">
+                                <a class="nav-link" style="color: var(--mycolor12);"
+                                    href="20250211-login-test_member_control_panel.html">產品列表</a>
+                            </li>
+                        </ul>
+                        <div>
+                            <span class="h5 px-3 py-1 rounded-3"
+                                style="color: white; background: linear-gradient(45deg, var(--mycolor04), #ff6b6b); box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
+                                id="s02_username_text">XXX</span>
+                            <button class="btn bg-013 d-none ms-3" data-bs-toggle="modal" data-bs-target="#logoutModal"
+                                id="s02_logout_btn">
+                                <span style="color: whitesmoke;">登出</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <div class="container my-5">
+        <h2 class="mb-4">我的商品</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" id="productTable">
+                <thead>
+                    <tr>
+                        <th>編號</th>
+                        <th>商品名稱</th>
+                        <th>價格</th>
+                        <th>分類</th>
+                        <th>狀態</th>
+                        <th>上傳日期</th>
+                        <th>圖片</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 產品資料將由 JavaScript 動態插入 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 編輯商品 Modal -->
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProductModalLabel">編輯商品</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProductForm" enctype="multipart/form-data">
+                        <input type="hidden" name="product_id" id="editProductId">
+                        <div class="mb-3">
+                            <label class="form-label">商品名稱</label>
+                            <input type="text" name="name" id="editProductName" class="form-control" required
+                                minlength="2" maxlength="50">
+                            <div id="editNameFeedback" class="invalid-feedback">請輸入2-50字元的商品名稱</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">價格</label>
+                            <input type="number" name="price" id="editProductPrice" class="form-control" required
+                                min="1" max="99999">
+                            <div class="invalid-feedback">請輸入有效價格(1-99999)</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">分類</label>
+                            <select name="category" id="editProductCategory" class="form-select" required>
+                                <option value="" disabled selected>選擇分類</option>
+                                <option value="童書">童書</option>
+                                <option value="旅遊">旅遊</option>
+                                <option value="科幻">科幻</option>
+                                <option value="奇幻">奇幻</option>
+                                <option value="愛情">愛情</option>
+                                <option value="懸疑">懸疑</option>
+                                <option value="歷史">歷史</option>
+                                <option value="傳記">傳記</option>
+                                <option value="食譜">食譜</option>
+                                <option value="心理學">心理學</option>
+                                <option value="專業書籍">專業書籍</option>
+                                <option value="商業理財">商業理財</option>
+                                <option value="外語學習">外語學習</option>
+                                <option value="藝術設計">藝術設計</option>
+                                <option value="其他分類">其他分類</option>
+                            </select>
+                            <div class="invalid-feedback">請選擇商品分類</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">商品描述</label>
+                            <textarea name="description" id="editProductDescription" class="form-control" rows="3"
+                                maxlength="255"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">更換圖片</label>
+                            <input type="file" name="image" id="editProductImage" class="form-control"
+                                accept="image/jpeg, image/png">
+                            <div class="invalid-feedback">請上傳 JPEG/PNG 格式圖片</div>
+                            <div class="mt-2" id="editImagePreview"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">儲存變更</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/cookie.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Cookie 讀取函式
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        // 檢查並驗證賣家身份，僅供賣家使用
+        async function checkAndValidateUser() {
+            const uid = getCookie("Uid01");
+            if (!uid) {
+                Swal.fire({
+                    title: "請先登入會員",
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: "確認",
+                    allowOutsideClick: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = "20250211-login-test.html";
+                    }
+                });
+                return null;
+            }
+            const JSONdata = { "uid01": uid };
+            try {
+                const response = await fetch('20250211-webcontrol-.api.php?action=checkuid', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(JSONdata)
+                });
+                const result = await response.json();
+                if (result.state) {
+                    $("#s02_username_text").text(result.data.Username);
+                    $("#s02_logout_btn").removeClass("d-none");
+                    return uid;
+                } else {
+                    Swal.fire('錯誤', '賣家帳號驗證失敗', 'error');
+                    return null;
+                }
+            } catch (error) {
+                console.error('API錯誤:', error);
+                Swal.fire('錯誤', '伺服器連接異常', 'error');
+                return null;
+            }
+        }
+
+        // 取得賣家上傳的商品列表 (假設後端 API 存在：action=product_list)
+        async function fetchMyProducts(uid) {
+            try {
+                const response = await fetch(`20250211-webcontrol-.api.php?action=product_list&uid01=${uid}`);
+                const result = await response.json();
+                // 如果後端回傳 state 為 true，則直接回傳資料
+                if (result.state) {
+                    return result.data; // 假設回傳資料為陣列
+                } else {
+                    // 如果訊息包含「查無資料」，則直接回傳空陣列，不顯示錯誤提示
+                    if (result.message && result.message.indexOf("查無資料") !== -1) {
+                        return [];
+                    }
+                    // 其他錯誤則顯示警告
+                    Swal.fire('錯誤', '無法取得商品列表', 'error');
+                    return [];
+                }
+            } catch (error) {
+                console.error('API錯誤:', error);
+                Swal.fire('錯誤', '伺服器連接異常', 'error');
+                return [];
+            }
+        }
+
+        // 為編輯商品 Modal 中的圖片上傳欄位新增即時預覽功能
+        document.getElementById('editProductImage').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                // 如果之前已有預覽URL，先釋放
+                if (window.lastEditImageURL) {
+                    URL.revokeObjectURL(window.lastEditImageURL);
+                }
+                const imageURL = URL.createObjectURL(file);
+                window.lastEditImageURL = imageURL;
+                // 更新預覽區，直接顯示新選擇的圖片
+                document.getElementById('editImagePreview').innerHTML = `<img src="${imageURL}" class="img-thumbnail" style="max-width:200px;">`;
+            }
+        });
+
+
+
+        // 渲染產品列表到表格中
+        function renderProductTable(products) {
+            const tbody = document.querySelector("#productTable tbody");
+            tbody.innerHTML = "";
+            products.forEach(product => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+          <td>${product.menu_id}</td>
+          <td>${product.name}</td>
+          <td>${product.price}</td>
+          <td>${product.category}</td>
+          <td>${product.status}</td>
+          <td>${product.created_at}</td>
+          <td>
+            ${product.thumbnail ? `<img src="/upload/${product.thumbnail}" class="img-thumbnail" style="max-width:100px;">` : '無圖片'}
+          </td>
+          <td>
+            <button class="btn btn-sm btn-primary edit-btn" data-id="${product.menu_id}">編輯</button>
+            <button class="btn btn-sm btn-danger delete-btn" data-id="${product.menu_id}">刪除</button>
+          </td>
+        `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 監聽表格內的編輯與刪除按鈕事件
+        function setupTableEvents(uid) {
+            // 編輯功能
+            document.querySelectorAll(".edit-btn").forEach(btn => {
+                btn.addEventListener("click", async function () {
+                    const productId = this.getAttribute("data-id");
+                    // 取得該產品詳細資料 (假設 API action=product_get)
+                    try {
+                        const response = await fetch(`20250211-webcontrol-.api.php?action=product_get&product_id=${productId}`);
+                        const result = await response.json();
+                        if (result.state) {
+                            const product = result.data;
+                            // 填充 Modal 表單資料
+                            document.getElementById("editProductId").value = product.menu_id;
+                            document.getElementById("editProductName").value = product.name;
+                            document.getElementById("editProductPrice").value = product.price;
+                            document.getElementById("editProductCategory").value = product.category;
+                            document.getElementById("editProductDescription").value = product.description || "";
+                            if (product.thumbnail) {
+                                document.getElementById("editImagePreview").innerHTML = `<img src="/upload/${product.thumbnail}" class="img-thumbnail" style="max-width:150px;">`;
+                            } else {
+                                document.getElementById("editImagePreview").innerHTML = "無圖片";
+                            }
+                            const editModal = new bootstrap.Modal(document.getElementById('editProductModal'));
+                            editModal.show();
+                        } else {
+                            Swal.fire('錯誤', '無法取得商品資料', 'error');
+                        }
+                    } catch (error) {
+                        console.error('API錯誤:', error);
+                        Swal.fire('錯誤', '伺服器連接異常', 'error');
+                    }
+                });
+            });
+
+            // 刪除功能
+            document.querySelectorAll(".delete-btn").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    const productId = this.getAttribute("data-id");
+                    Swal.fire({
+                        title: '確認刪除？',
+                        text: "此操作無法復原！",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: '是的，刪除',
+                        cancelButtonText: '取消'
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            try {
+                                const response = await fetch(`20250211-webcontrol-.api.php?action=product_delete&uid01=${uid}&product_id=${productId}`, {
+                                    method: 'DELETE'
+                                });
+                                const result = await response.json();
+                                if (result.state) {
+                                    Swal.fire('成功', result.message, 'success');
+                                    loadProducts(uid);
+                                } else {
+                                    Swal.fire('錯誤', result.message, 'error');
+                                }
+                            } catch (error) {
+                                console.error('API錯誤:', error);
+                                Swal.fire('錯誤', '伺服器連接異常', 'error');
+                            }
+                        }
+                    });
+                });
+            });
+        }
+
+
+
+        // 編輯產品表單提交
+        document.getElementById("editProductForm").addEventListener("submit", async function (e) {
+
+            // 編輯產品名稱即時監聽，檢查重複
+            $("#editProductName").on("input propertychange", function () {
+                let nameVal = $(this).val().trim();
+                if (nameVal.length < 2 || nameVal.length > 50) {
+                    $(this).removeClass("is-valid").addClass("is-invalid");
+                    $("#editNameFeedback").text("產品名稱需在 2-50 字之間");
+                    return;
+                }
+                // 傳遞至後端確認產品名稱是否重複
+                let JSONdata = { "name": nameVal };
+                console.log("檢查編輯產品名稱:", JSON.stringify(JSONdata));
+                $.ajax({
+                    type: "POST",
+                    url: "20250211-webcontrol-.api.php?action=checkuni_product",
+                    data: JSON.stringify(JSONdata),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.state) {
+                            $("#editProductName").removeClass("is-invalid").addClass("is-valid");
+                            $("#editNameFeedback").text("產品名稱可用");
+                        } else {
+                            $("#editProductName").removeClass("is-valid").addClass("is-invalid");
+                            $("#editNameFeedback").text(response.message || "產品名稱已存在");
+                        }
+                    },
+                    error: function () {
+                        $("#editProductName").removeClass("is-valid").addClass("is-invalid");
+                        $("#editNameFeedback").text("檢查產品名稱時出錯");
+                    }
+                });
+            });
+
+
+
+            e.preventDefault();
+            if (!this.checkValidity()) {
+                e.stopPropagation();
+                this.classList.add('was-validated');
+                return;
+            }
+            const formData = new FormData(this);
+            // 新增：從 Cookie 取得 uid01 並加入 FormData
+            const uid = getCookie("Uid01");
+            formData.append("uid01", uid);
+
+            try {
+                const response = await fetch('20250211-webcontrol-.api.php?action=product_update', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.state) {
+                    Swal.fire('成功', result.message, 'success');
+                    const modalEl = document.getElementById('editProductModal');
+                    const modal = bootstrap.Modal.getInstance(modalEl);
+                    modal.hide();
+                    loadProducts(uid);
+                } else {
+                    Swal.fire('錯誤', result.message, 'error');
+                }
+            } catch (error) {
+                console.error('API錯誤:', error);
+                Swal.fire('錯誤', '伺服器連接異常', 'error');
+            }
+        });
+
+
+        // 載入產品列表
+        async function loadProducts(uid) {
+            const products = await fetchMyProducts(uid);
+            renderProductTable(products);
+            setupTableEvents(uid);
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const uid = await checkAndValidateUser();
+            if (uid) {
+                loadProducts(uid);
+            }
+        });
+
+        //s02_logout_btn 按鈕監聽
+        $("#s02_logout_btn").click(function () {
+            setCookie("Uid01", "", 7);
+            location.href = "20250211-login-test.html";
+        });
+    </script>
+</body>
+
+</html>

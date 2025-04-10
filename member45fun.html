@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>專屬配送</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/all.min.css" />
+    <link rel="stylesheet" href="css/mycss.css" />
+
+    <!-- (資料庫 CREATE TABLE 語法略) -->
+
+    <!-- Google Maps API 請確認金鑰與設定 -->
+    <style>
+        body {
+            background-color: var(--mycolor14);
+        }
+
+        .navbar {
+            background-color: var(--mycolor10);
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: var(--mycolor13) !important;
+        }
+
+        .nav-link.active {
+            font-weight: bold;
+        }
+
+        .card {
+            background-color: var(--mycolor01);
+            border: 2px solid var(--mycolor13);
+        }
+
+        .card-header {
+            background-color: var(--mycolor13);
+            color: #fff;
+        }
+
+        .btn-primary {
+            background-color: var(--mycolor13);
+            border-color: var(--mycolor13);
+        }
+
+        /* Google 地圖區塊 */
+        #map {
+            height: 400px;
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 上方 Navbar -->
+    <section id="s02" class="bg-010">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <i class="fa-solid fa-truck-fast fa-1x m-auto" style="color: var(--mycolor13);"></i>
+                        <span style="color: var(--mycolor13); letter-spacing: 0.1em;">專屬配送</span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="20250211-login-test.html">首頁</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active"
+                                    href="/20250211-login-test_member_control_panel.html">會員專區</a>
+                            </li>
+                        </ul>
+                        <div>
+                            <span class="h5 px-3 py-1 rounded-3"
+                                style="color: white; background: linear-gradient(45deg, var(--mycolor04), #ff6b6b); box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
+                                id="s02_username_text">XXX</span>
+                            <button class="btn bg-013 d-none ms-3" id="s02_logout_btn">
+                                <span style="color: whitesmoke;">登出</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <!-- 快速提貨/專屬配送區塊 -->
+    <div class="container my-5">
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="fa-solid fa-truck-fast me-2"></i>快速提貨/專屬配送
+                </h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    為高等級會員提供快速配送或到店快速提貨服務，縮短等待時間。
+                </p>
+                <!-- Google 地圖 -->
+                <div id="map" class="mb-3"></div>
+                <!-- 縣市選擇 -->
+                <div class="mb-3">
+                    <label for="mycity" class="form-label">選擇縣市</label>
+                    <select class="form-select" id="mycity">
+                        <option value="" selected disabled>---選擇縣市名稱---</option>
+                    </select>
+                </div>
+                <!-- 鄉鎮區選擇 -->
+                <div class="mb-3">
+                    <label for="myarea" class="form-label">選擇鄉鎮區</label>
+                    <select class="form-select" id="myarea">
+                        <option value="" selected disabled>---選擇鄉鎮區名稱---</option>
+                    </select>
+                </div>
+                <!-- 詳細地址輸入 -->
+                <div class="mb-3">
+                    <label for="detailedAddress" class="form-label">詳細地址</label>
+                    <input type="text" class="form-control" id="detailedAddress" placeholder="請輸入詳細地址" />
+                </div>
+                <!-- 確認與重製按鈕 -->
+                <div class="d-flex justify-content-end">
+                    <button id="resetBtn" class="btn btn-secondary me-2">重製</button>
+                    <button id="confirmBtn" class="btn btn-primary">確認</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- 載入 Google Maps API，請確認 key 與 callback -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdKx5uqUgVH0ohbCQn8g55yMqjuiMdhSc&callback=initMap">
+    </script>
+    <script src="js/cookie.js"></script>
+    <script>
+        // 會員驗證與會員等級判斷：僅允許會員等級 4 以上使用此服務
+        if (getCookie("Uid01")) {
+            var JSONdata = { uid01: getCookie("Uid01") };
+            $.ajax({
+                type: "POST",
+                url: "20250211-webcontrol-.api.php?action=checkuid",
+                data: JSON.stringify(JSONdata),
+                dataType: "json",
+                success: function (data) {
+                    if (data.state) {
+                        $("#s02_username_text").text(data.data.Username);
+                        $("#s02_logout_btn").removeClass("d-none");
+                        // 計算會員等級 (例如：每完成 5 筆訂單升級，最低 1 級)
+                        var orders = parseInt(data.data.order_count);
+                        var level = orders > 0 ? Math.min(5, Math.ceil((orders + 1) / 5)) : 1;
+                        if (level < 4) {
+                            Swal.fire({
+                                title: "會員等級不足",
+                                text: "此服務僅限會員等級 4 以上使用",
+                                icon: "info"
+                            }).then(function () {
+                                window.location.href =
+                                    "20250211-login-test_member_control_panel.html";
+                            });
+                        }
+                    } else {
+                        Swal.fire({ title: "驗證失敗", icon: "error" });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        title: "API介接錯誤",
+                        text: "無法取得使用者資料",
+                        icon: "error"
+                    });
+                }
+            });
+        } else {
+            Swal.fire({
+                title: "請先登入會員",
+                icon: "info",
+                allowOutsideClick: false
+            }).then(function () {
+                location.href = "20250211-login-test.html";
+            });
+        }
+
+        var map;           // 全域地圖變數
+        var currentMarker; // 全域唯一標記
+
+        // 初始地圖：設定中心點與縮放等級，使整個台灣呈現
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 23.5, lng: 121 },
+                zoom: 7
+            });
+        }
+
+        // 根據完整地址進行地理編碼並在地圖上產生標記與 InfoWindow
+        function markAddress(address) {
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ address: address }, function (results, status) {
+                if (status === "OK") {
+                    // 若 geocoder 返回結果為部分符合（partial_match 為 true），視為詳細地址不精確
+                    if (results[0].partial_match) {
+                        Swal.fire({
+                            title: "找不到精確的地址",
+                            text: "請確認您輸入的詳細地址是否正確。",
+                            icon: "warning"
+                        });
+                        return;
+                    }
+                    var location = results[0].geometry.location;
+                    // 移除先前存在的標記
+                    if (currentMarker) {
+                        currentMarker.setMap(null);
+                    }
+                    // 設定新標記並存入全域變數
+                    currentMarker = new google.maps.Marker({
+                        map: map,
+                        position: location
+                    });
+                    // 調整地圖至該位置，縮放至街景層級
+                    map.setCenter(location);
+                    map.setZoom(19);
+
+                    // 建立 InfoWindow 小視窗，內容格式為：
+                    // 第一行：配送地址（字體較大）
+                    // 換行後：使用者所填寫的地址
+                    var infoContent = "<div style='font-size:20px; font-weight:bold; margin-bottom:8px;'>配送地址</div>" +
+                        "<div>" + address + "</div>";
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: infoContent,
+                        maxWidth: 300
+                    });
+                    infoWindow.open(map, currentMarker);
+
+                    // 顯示 Swal 成功訊息
+                    Swal.fire({
+                        title: "配送地址確認",
+                        text: "地址：" + address,
+                        icon: "success"
+                    });
+                } else {
+                    Swal.fire({
+                        title: "找不到該地址",
+                        text: "無法取得該地址的地理位置: " + status,
+                        icon: "warning"
+                    });
+                }
+            });
+        }
+
+        // 讀取縣市／鄉鎮區資料
+        var allCityData;
+        $.ajax({
+            type: "GET",
+            url: "js/CityCountyData.json",
+            dataType: "json",
+            success: function (data) {
+                allCityData = data;
+                $("#mycity")
+                    .empty()
+                    .append('<option value="" selected disabled>---選擇縣市名稱---</option>');
+                allCityData.forEach(function (item) {
+                    $("#mycity").append(
+                        '<option value="' + item.CityName + '">' + item.CityName + "</option>"
+                    );
+                });
+            },
+            error: function () {
+                Swal.fire({
+                    title: "資料讀取錯誤",
+                    text: "無法取得縣市/鄉鎮區資料",
+                    icon: "error"
+                });
+            }
+        });
+
+        // 當使用者選擇縣市後，動態產生鄉鎮區下拉選單
+        $("#mycity").change(function () {
+            var selectedCity = $(this).val();
+            $("#myarea")
+                .empty()
+                .append('<option value="" selected disabled>---選擇鄉鎮區名稱---</option>');
+            allCityData.forEach(function (item) {
+                if (item.CityName === selectedCity) {
+                    item.AreaList.forEach(function (area) {
+                        $("#myarea").append(
+                            '<option value="' + area.AreaName + '">' +
+                            area.AreaName + " (" + area.ZipCode + ")</option>"
+                        );
+                    });
+                }
+            });
+        });
+
+        // 重製按鈕：清除選單、地址及地圖標記，並重設地圖視角
+        $("#resetBtn").click(function () {
+            $("#mycity").val("");
+            $("#myarea")
+                .empty()
+                .append('<option value="" selected disabled>---選擇鄉鎮區名稱---</option>');
+            $("#detailedAddress").val("");
+            // 重設地圖顯示整個台灣
+            map.setCenter({ lat: 23.5, lng: 121 });
+            map.setZoom(7);
+            // 移除地圖上存在的標記
+            if (currentMarker) {
+                currentMarker.setMap(null);
+                currentMarker = null;
+            }
+        });
+
+        // 確認按鈕：當地址資訊完整時，執行地理編碼並在地圖上標記該位置
+        $("#confirmBtn").click(function () {
+            var city = $("#mycity").val();
+            var area = $("#myarea").val();
+            var address = $("#detailedAddress").val();
+            if (city && area && address) {
+                var fullAddress = city + " " + area + " " + address;
+                markAddress(fullAddress);
+            } else {
+                Swal.fire({
+                    title: "地址不完整",
+                    text: "請確認縣市、鄉鎮區與詳細地址皆已填寫",
+                    icon: "warning"
+                });
+            }
+        });
+
+        // 登出按鈕
+        $("#s02_logout_btn").click(function () {
+            setCookie("Uid01", "", 7);
+            location.href = "20250211-login-test.html";
+        });
+    </script>
+</body>
+
+</html>

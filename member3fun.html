@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>快閃優惠</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/all.min.css" />
+    <link rel="stylesheet" href="css/mycss.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        /* 與產品管理介面相同的配色設定 */
+        body {
+            background-color: var(--mycolor14);
+        }
+
+        .navbar {
+            background-color: var(--mycolor10);
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: var(--mycolor13) !important;
+        }
+
+        .nav-link.active {
+            font-weight: bold;
+        }
+
+
+        .card {
+            background-color: var(--mycolor01);
+            border: 2px solid var(--mycolor13);
+        }
+
+        .card-header {
+            background-color: var(--mycolor13);
+            color: #fff;
+        }
+
+        .discount-card {
+            border: 2px solid var(--mycolor13);
+        }
+
+
+        .btn-primary {
+            background-color: var(--mycolor13);
+            border-color: var(--mycolor13);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 上方 Navbar -->
+    <section id="s02" class="bg-010">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <i class="fa-solid fa-comments-dollar fa-1x m-auto" style="color: var(--mycolor13);"></i>
+                        <span style="color: var(--mycolor13); letter-spacing: 0.1em;">獨享優惠</span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="20250211-login-test.html">首頁</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active"
+                                    href="/20250211-login-test_member_control_panel.html">會員專區</a>
+                            </li>
+                        </ul>
+                        <div>
+                            <span class="h5 px-3 py-1 rounded-3"
+                                style="color: white; background: linear-gradient(45deg, var(--mycolor04), #ff6b6b); box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
+                                id="s02_username_text">XXX</span>
+                            <button class="btn bg-013 d-none ms-3" data-bs-toggle="modal" data-bs-target="#logoutModal"
+                                id="s02_logout_btn">
+                                <span style="color: whitesmoke;">登出</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </section>
+    
+    
+    <div class="container my-3">
+        <div class="container my-4">
+            <h2 class="text-center my-4" style="color: var(--mycolor13);">近期優惠</h2>
+            <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <!-- 優惠項目 1 -->
+                    <div class="carousel-item active bg-cover">
+                        <img src="image/sale1.jpg" class="d-block w-100" style="height: 60vh;  background-size: cover; background-position: center" alt="促銷圖片 1">
+                        <div class="carousel-caption d-none d-md-block">
+                        </div>
+                    </div>
+                    <!-- 優惠項目 2 -->
+                    <div class="carousel-item bg-cover">
+                        <img src="image/sale2.jpg" class="d-block w-100" style="height: 60vh;  background-size: cover; background-position: center" alt="促銷圖片 2">
+                        <div class="carousel-caption d-none d-md-block">
+                        </div>
+                    </div>
+                    <!-- 優惠項目 3 -->
+                    <div class="carousel-item bg-cover">
+                        <img src="image/sale3.jpg" class="d-block w-100" style="height: 60vh;  background-size: cover; background-position: center" alt="促銷圖片 3">
+                        <div class="carousel-caption d-none d-md-block">
+                        </div>
+                    </div>
+                    <div class="carousel-item bg-cover">
+                        <img src="image/sale4.jpg" class="d-block w-100" style="height: 60vh;  background-size: cover; background-position: center" alt="促銷圖片 4">
+                        <div class="carousel-caption d-none d-md-block">
+                        </div>
+                    </div>
+                </div>
+                <!-- 輪播控制按鈕 -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">上一頁</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">下一頁</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- 限時優惠券 -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-lg discount-card">
+                    <div class="card-header">
+                        <h4 class="mb-0">
+                            <i class="fa-solid fa-ticket-alt me-2"></i>限時優惠券
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">定期發放限時優惠券，限時使用，享受專屬優惠。</p>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p id="coupon_code" class="mb-0" style="font-size: 1.5em; font-weight: bold;">載入中...</p>
+                            <button id="copy_coupon_code" class="btn"
+                                style="background-color: var(--mycolor13); border-color: var(--mycolor13); color: #fff;">複製</button>
+                        </div>
+                        <hr style="border-top: 2px solid var(--mycolor13);" />
+                        <p class="mb-1">優惠券有效期：<span id="coupon_expiry">2025-04-13</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 隨機抽獎 -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-lg">
+                    <div class="card-header">
+                        <h4 class="mb-0">
+                            <i class="fa-solid fa-gift me-2"></i>隨機抽獎
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">參與抽獎活動，高等級會員參與抽獎機會及中獎率更高！</p>
+                        <p class="card-text">本期獎品: 東京來回機票2名</p>
+                        <div class="text-center my-3">
+                            <button id="lottery_button" class="btn"
+                                style="background-color: var(--mycolor13); border-color: var(--mycolor13); color: #fff;">參加抽獎</button>
+                        </div>
+                        <div id="lottery_result" class="alert alert-info d-none" role="alert">
+                            恭喜！您中獎了！
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/cookie.js"></script>
+    <script>
+
+        if (getCookie("Uid01")) {
+            var JSONdata = { "uid01": getCookie("Uid01") };
+            $.ajax({
+                type: "POST",
+                url: "20250211-webcontrol-.api.php?action=checkuid",
+                data: JSON.stringify(JSONdata),
+                dataType: "json",
+                success: function (data) {
+                    if (data.state) {
+                        $("#s02_username_text").text(data.data.Username);
+                        $("#s02_logout_btn").removeClass("d-none");
+                    } else {
+                        Swal.fire({ title: "驗證失敗", icon: "error" });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        title: "API介接錯誤",
+                        text: "無法取得使用者資料",
+                        icon: "error"
+                    });
+                }
+            });
+        } else {
+            Swal.fire({
+                title: "請先登入會員",
+                icon: "info",
+                allowOutsideClick: false
+            }).then(function () {
+                location.href = "20250211-login-test.html";
+            });
+        }
+
+        $(document).ready(function () {
+
+            $("#coupon_code").text("COUPON202503");
+
+
+            $("#copy_coupon_code").click(function () {
+                var couponCode = $("#coupon_code").text();
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(couponCode)
+                        .then(function () {
+                            Swal.fire({
+                                title: "已複製優惠券代碼",
+                                icon: "success",
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                        })
+                        .catch(function (err) {
+                            Swal.fire({
+                                title: "複製失敗",
+                                text: err,
+                                icon: "error"
+                            });
+                        });
+                } else {
+                    var $temp = $("<input>");
+                    $("body").append($temp);
+                    $temp.val(couponCode).select();
+                    try {
+                        var successful = document.execCommand("copy");
+                        if (successful) {
+                            Swal.fire({
+                                title: "已複製優惠券代碼",
+                                icon: "success",
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                        } else {
+                            throw new Error("執行複製命令失敗");
+                        }
+                    } catch (err) {
+                        Swal.fire({
+                            title: "複製失敗",
+                            text: err,
+                            icon: "error"
+                        });
+                    }
+                    $temp.remove();
+                }
+            });
+
+
+            // 隨機抽獎
+            $("#lottery_button").click(function () {
+                var win = Math.random() < 0.2;
+                if (win) {
+                    $("#lottery_result").removeClass("d-none").removeClass("alert-info").addClass("alert-success").text("恭喜！您中獎了！");
+                } else {
+                    $("#lottery_result").removeClass("d-none").removeClass("alert-success").addClass("alert-info").text("很遺憾，未中獎，再接再厲！");
+                }
+
+
+                setTimeout(function () {
+                    $("#lottery_result").addClass("d-none");
+                }, 3000);
+            });
+
+            // 登出按鈕
+            $("#s02_logout_btn").click(function () {
+                setCookie("Uid01", "", 7);
+                location.href = "20250211-login-test.html";
+            });
+        });
+    </script>
+</body>
+
+</html>

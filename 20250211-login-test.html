@@ -1,0 +1,2097 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2ND BOOK - 二手書交易網站</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/mycss.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap');
+
+        a {
+            text-decoration: none;
+        }
+
+        /* 保留原有樣式 */
+        .box03 {
+            padding: 10px;
+            box-shadow: 2px 2px 2px 2px #ccc;
+            border-radius: 8px;
+        }
+
+        .box03 .h4 {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        @media screen and (max-width: 768px) {
+
+            .s05-text,
+            .s08-text {
+                z-index: 10;
+                background-color: rgba(0, 0, 0, 0.5);
+                color: var(--mycolor01);
+                margin: 15px;
+                box-shadow: 2px 2px 4px 2px #fafafa;
+                border-radius: 15px;
+                padding: 15px;
+            }
+        }
+
+        .s12-text {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+        }
+
+        /* 設定整體背景 */
+        body {
+            background-color: var(--mycolor14);
+            font-family: "LXGW WenKai Mono TC", monospace;
+        }
+
+        /* 將表格標題背景調整為與 navbar 品牌文字相呼應 */
+        .table thead {
+            background-color: var(--mycolor13);
+            color: #ffffff;
+        }
+
+        /* 強調表格邊框 */
+        .table-bordered,
+        .table-bordered th,
+        .table-bordered td {
+            border: 2px solid var(--mycolor13) !important;
+        }
+
+        /* 讓表格內容置中 */
+        .table td,
+        .table th {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        /* Modal 標題背景與文字 */
+        .modal-header {
+            background-color: var(--mycolor13);
+            color: #ffffff;
+        }
+
+        /* 主按鈕樣式統一使用深棕色 */
+        .btn-primary {
+            background-color: var(--mycolor13);
+            border-color: var(--mycolor13);
+        }
+
+        .btn-warning {
+            background-color: var(--mycolor12);
+            border-color: var(--mycolor12);
+            color: #fff;
+        }
+
+        .btn-danger {
+            background-color: var(--mycolor07);
+            border-color: var(--mycolor07);
+        }
+
+        .btn-edit {
+            background-color: var(--mycolor13);
+            border-color: var(--mycolor13);
+            color: #fff;
+        }
+
+        /* 為會員守則的 li 加入懸掛縮排效果 */
+        .member-rules li {
+            padding-left: 2em;
+            text-indent: -1.5em;
+            margin-bottom: 1em;
+        }
+
+        /* 移除預設列表樣式並設定適當的內外距 */
+        .member-rules {
+            padding-left: 0;
+            margin-bottom: 10px;
+            list-style: none;
+        }
+
+        /* 調整每一個列表項目的字體大小、行高與底部間距 */
+        .member-rules li {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            margin-top: 30px;
+            padding-right: 5px;
+        }
+
+        /* 增加的新樣式，提升視覺效果 */
+        .hero-section {
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-box {
+            display: flex;
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 2px solid var(--mycolor02);
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            border-color: var(--mycolor03);
+            box-shadow: 0 0 8px rgba(133, 184, 203, 0.5);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            border-radius: 20px;
+            padding: 8px 25px;
+        }
+
+        .book-cover {
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .book-cover:hover {
+            transform: scale(1.05);
+        }
+
+        .discount-tag {
+            display: inline-block;
+            background-color: var(--mycolor05);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            margin: 8px 0;
+        }
+
+        .badge {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.1);
+        }
+
+        .hover-pulse:hover {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .category-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 24px;
+        }
+
+        .category-title {
+            color: var(--mycolor04);
+            margin-bottom: 8px;
+        }
+
+        .category-count {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .book-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+            position: relative;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-thumb {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-thumb img {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+
+        .book-card:hover .book-thumb img {
+            transform: scale(1.05);
+        }
+
+        .book-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .book-info {
+            padding: 15px;
+        }
+
+        .book-title {
+            color: var(--mycolor04);
+            margin-bottom: 5px;
+            height: 42px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-clamp: 2;
+        }
+
+        .book-author {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .book-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .price-new {
+            color: var(--mycolor07);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-right: 8px;
+        }
+
+        .price-old {
+            color: #999;
+            text-decoration: line-through;
+            font-size: 0.9rem;
+        }
+
+        .book-condition {
+            display: inline-block;
+            background-color: var(--mycolor02);
+            color: var(--mycolor04);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .book-actions {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .feature-item {
+            margin-bottom: 25px;
+        }
+
+        .feature-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            margin-right: 15px;
+            color: white;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .feature-text h4 {
+            color: var(--mycolor04);
+            margin-bottom: 5px;
+        }
+
+        .signup-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            height: 100%;
+        }
+
+        .signup-form .form-control {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .signup-form .form-control:focus {
+            border-color: var(--mycolor03);
+            box-shadow: 0 0 8px rgba(133, 184, 203, 0.5);
+        }
+
+        .signup-footer a {
+            color: var(--mycolor03);
+            font-weight: 600;
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .animate-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title h2 {
+            color: var(--mycolor04);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: var(--mycolor05);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* 本月精選區域 - 移除懸浮效果，讓按鈕始終顯示在右下角 */
+        .featured-section .rollerr {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+            width: auto !important;
+        }
+
+        /* 調整按鈕容器樣式 */
+        .featured-section .book-actions {
+            padding: 5px;
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+        }
+
+        /* 調整按鈕大小 */
+        .featured-section .book-actions button {
+            font-size: 0.7rem;
+            padding: 3px 6px;
+        }
+
+        /* 移除卡片懸浮效果 */
+        .featured-section .book-card:hover {
+            transform: none !important;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        /* 移除圖片懸浮放大效果 */
+        .featured-section .book-card:hover .book-thumb img {
+            transform: none !important;
+        }
+
+        /* 輪播樣式調整 */
+        #featuredBooksCarousel .carousel-control-prev,
+        #featuredBooksCarousel .carousel-control-next {
+            width: 5%;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 30px;
+            height: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #featuredBooksCarousel .carousel-indicators {
+            bottom: -30px;
+        }
+
+        #featuredBooksCarousel .carousel-indicators button {
+            background-color: var(--mycolor03);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <!-- section02 - 保留原有的navbar -->
+    <section id="s02" class="bg-010">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg bg-010">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <i class="fa-solid fa-book fa-1x m-auto " style="color: var(--mycolor13);"></i>
+                        <i class="fa-solid fa-1x m-auto">
+                            <span style="color: var(--mycolor13); letter-spacing: 0.1em;">2nd BOOK</span>
+                        </i>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="fa-solid fa-list me-1"></i>書籍分類
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark  bg-010">
+                                    <li><a class="dropdown-item  bg-010" href="20250310-product.html?category=傳記">
+                                            <span style="color: var(--mycolor13);">傳記</a></span>
+                                    </li>
+                                    <li><a class="dropdown-item  bg-010" href="20250310-product.html?category=商業小說">
+                                            <span style="color: var(--mycolor13);">商業理財</a></span>
+                                    </li>
+                                    <li><a class="dropdown-item  bg-010" href="20250310-product.html?category=心理學">
+                                            <span style="color: var(--mycolor13);">心理學</a></span>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item bg-010" href="20250310-product.html?category=全部">
+                                            <span style="color: var(--mycolor13);">查看所有分類</span></a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-star me-1"></i>精選推薦</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-comments me-1"></i>聯絡我們</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="cart.html">
+                                    <i class="fas fa-shopping-cart"></i> 購物車
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown d-none" id="s02_member_btn">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false" style="color: var(--mycolor10);">
+                                    <span style="color: var(--mycolor13);" class="me-1"><i
+                                            class="fas fa-user-circle me-1"></i>會員專區 </span>
+                                </a>
+                                <ul class="dropdown-menu bg-010">
+                                    <li><a class="dropdown-item bg-010"
+                                            href="20250211-login-test_member_control_panel.html"><span
+                                                style="color: var(--mycolor13);">會員中心</span></a></li>
+                                    <li class="d-none" id="s02_upload_btn">
+                                        <a class="dropdown-item bg-010" href="20250218-test-C-product.html">
+                                            <span style="color: var(--mycolor13);">商品管理</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div>
+                            <span class="h5 mx-3 d-none position-relative" style="color: var(--mycolor13)"
+                                id="s02_username_showtext">
+                                <span class="h5 px-3 py-1 rounded-3" style="color: white; 
+                                             background: linear-gradient(45deg, var(--mycolor04), #ff6b6b);
+                                             box-shadow: 0 2px 5px rgba(0,0,0,0.1);" id="s02_username_text">XXX</span>
+                            </span>
+                            <botton class="btn bg-013 d-none me-3" data-bs-toggle="modal" data-bs-target="#logoutModal"
+                                id="s02_logout_btn">
+                                <span style="color: whitesmoke;">登出</span>
+                            </botton>
+                            <botton class="btn bg-012" data-bs-toggle="modal" data-bs-target="#registerModal"
+                                id="s02_reg_btn">
+                                <span style="color: whitesmoke;">註冊</span>
+                            </botton>
+                            <botton class="btn bg-011 me-3" data-bs-toggle="modal" data-bs-target="#loginModal"
+                                id="s02_login_btn">
+                                <span style="color: whitesmoke;">登入</span>
+                            </botton>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <!-- 保留原有的modals -->
+    <!-- registerModal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-003">
+                    <h1 class="modal-title fs-4 fw-900 text-light" id="registerModalLabel">註冊</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <!-- 會員守則區塊 -->
+                        <div class="col-md-6 border-end">
+                            <div class="mb-4">
+                                <h2 class="display-7 fw-600 mt-3" style="color: var(--mycolor13);"><i
+                                        class="fa-solid fa-id-card fa-1x m-auto me-3"></i>會員守則</h2>
+                                <ul class="list-unstyled member-rules">
+                                    <li>1. 註冊時請提供正確、完整的個人資料，不得冒用他人身份或提供虛假資訊，否則本站有權刪除帳號。</li>
+                                    <li>2. 請妥善保管帳號及密碼，避免與他人共用；發現異常請立即聯繫客服。</li>
+                                    <li>3. 使用網站時禁止發佈不當或侵害他人權益的內容，不得破壞系統或影響其他用戶。</li>
+                                    <li>4. 會員應遵守本網站規定及相關法律，違規者本站可採取包括暫停或終止會員資格等措施。</li>
+                                </ul>
+                            </div>
+                            <div class="form-check form-switch mt-auto">
+                                <input type="checkbox" class="form-check-input" role="switch" id="chk01" name="chk01">
+                                <label for="chk01" class="form-check-label">不同意</label>
+                                <div class="valid-feedback">我已同意會員守則</div>
+                                <div class="invalid-feedback">須同意後才能註冊</div>
+                            </div>
+                        </div>
+
+                        <!-- 註冊表單區塊 -->
+                        <div class="col-md-6">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="username_reg" class="form-label">帳號</label>
+                                    <input type="text" class="form-control" id="username_reg" name="username_reg"
+                                        placeholder="3~6字">
+                                    <div class="valid-feedback" id="regModal_username_valid_feedback">符合</div>
+                                    <div class="invalid-feedback" id="regModal_username_invalid_feedback">不符合</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password_reg" class="form-label">密碼</label>
+                                    <input type="password" class="form-control" id="password_reg" name="password_reg"
+                                        placeholder="3~6字">
+                                    <div class="valid-feedback">符合</div>
+                                    <div class="invalid-feedback">不符合</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="re_password_reg" class="form-label">確認密碼</label>
+                                    <input type="password" class="form-control" id="re_password_reg"
+                                        name="re_password_reg">
+                                    <div class="valid-feedback">符合</div>
+                                    <div class="invalid-feedback">不符合</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email_reg" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email_reg" name="email_reg"
+                                        placeholder="3~15字" value="202503@test.com">
+                                    <div class="valid-feedback">符合</div>
+                                    <div class="invalid-feedback">不符合</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="address_reg" class="form-label">地址</label>
+                                    <input type="text" class="form-control" id="address_reg" name="address_reg"
+                                        placeholder="3~15字" value="台中市西屯區">
+                                    <div class="valid-feedback">符合</div>
+                                    <div class="invalid-feedback">不符合</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="role_reg" class="form-label">身份</label>
+                                    <select class="form-select" id="role_reg" name="role_reg">
+                                        <option value="buyer" selected>買家</option>
+                                        <option value="seller">賣家</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-001" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-edit" id="ok_btn_reg">確認</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- loginModal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-003">
+                    <h1 class="modal-title fs-4 fw-900 text-light" id="exampleModalLabel">登入</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="form-label">帳號</label>
+                        <input type="text" class="form-control is-invalid" id="username_login" name="username_login"
+                            value="own">
+                        <div class="invalid-feedback">請輸入帳號</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="form-label">密碼</label>
+                        <input type="password" class="form-control is-invalid" id="password_login" name="password_login"
+                            value="12345">
+                        <div class="invalid-feedback">請輸入密碼</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-edit" id="ok_btn_login">確認</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero-section bg-010 py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 hero-content animate-on-scroll">
+                    <h1 class="display-4 fw-700">二手書的新旅程</h1>
+                    <p class="lead fw-400">每本書都有故事，每個故事都值得延續</p>
+                    <div class="search-box mt-4">
+                        <input type="text" class="form-control" placeholder="搜尋您想要的書籍...">
+                        <button class="btn bg-005 text-white search-btn hover-effect">搜尋</button>
+                    </div>
+                    <div class="mt-3">
+                        <a class="badge bg-002 me-2 hover-scale" href="20250310-product.html?category=傳記">傳記</a>
+                        <a class="badge bg-003 me-2 hover-scale" href="20250310-product.html?category=商業理財">商業理財</a>
+                        <a class="badge bg-008 me-2 hover-scale" href="20250310-product.html?category=藝術設計">藝術設計</a>
+                        <a class="badge bg-012 hover-scale" href="20250310-product.html?category=專業書籍">專業書籍</a>
+                    </div>
+
+                </div>
+                <div class="col-md-6 book-showcase animate-on-scroll" data-delay="200">
+                    <div class="book-carousel">
+                        <div class="book-item myrollerl">
+                            <img src="/image/book1.jpg" alt="暢銷二手書" class="img-fluid book-cover">
+                            <div class="rollerl">
+                                <div class="book-details">
+                                    <h4 class="fw-600" style="color: var(--mycolor10);">如果我能和我的年少時光聊聊</h4>
+                                    <p class="discount-tag">65折</p>
+                                    <button class="btn bg-007 btn-sm text-white hover-pulse">立即選購</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 熱門分類 Section -->
+    <!-- 熱門分類 Section -->
+    <div class="categories-section py-5 bg-014">
+        <div class="container">
+            <div class="section-title text-center mb-5 animate-on-scroll">
+                <h2 class="fw-700">探索您感興趣的書籍類別</h2>
+                <p class="text-muted">尋找下一本心儀的好書</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-6 mb-4">
+                    <a href="20250310-product.html?category=傳記" class="text-decoration-none">
+                        <div class="category-card animate-on-scroll" data-delay="100">
+                            <div class="category-icon bg-002">
+                                <i class="fa fa-book"></i>
+                            </div>
+                            <h4 class="category-title fw-600">傳記</h4>
+                            <p class="category-count">2,451 本書</p>
+                            <div class="category-button">
+                                <span class="btn btn-primary text-white btn-sm">瀏覽全部</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3 col-6 mb-4">
+                    <a href="20250310-product.html?category=商業理財" class="text-decoration-none">
+                        <div class="category-card animate-on-scroll" data-delay="200">
+                            <div class="category-icon bg-008">
+                                <i class="fa fa-briefcase"></i>
+                            </div>
+                            <h4 class="category-title fw-600">商業理財</h4>
+                            <p class="category-count">1,873 本書</p>
+                            <div class="category-button">
+                                <span class="btn btn-primary text-white btn-sm">瀏覽全部</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3 col-6 mb-4">
+                    <a href="20250310-product.html?category=藝術設計" class="text-decoration-none">
+                        <div class="category-card animate-on-scroll" data-delay="300">
+                            <div class="category-icon bg-005">
+                                <i class="fa fa-palette"></i>
+                            </div>
+                            <h4 class="category-title fw-600">藝術設計</h4>
+                            <p class="category-count">958 本書</p>
+                            <div class="category-button">
+                                <span class="btn btn-primary text-white btn-sm">瀏覽全部</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3 col-6 mb-4">
+                    <a href="20250310-product.html?category=專業書籍" class="text-decoration-none">
+                        <div class="category-card animate-on-scroll" data-delay="400">
+                            <div class="category-icon bg-012">
+                                <i class="fa fa-graduation-cap"></i>
+                            </div>
+                            <h4 class="category-title fw-600">專業書籍</h4>
+                            <p class="category-count">3,214 本書</p>
+                            <div class="category-button">
+                                <span class="btn btn-primary text-white btn-sm">瀏覽全部</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 本月精選 Section -->
+    <div class="featured-section py-5">
+        <div class="container">
+            <div class="section-title text-center mb-5 animate-on-scroll">
+                <h2 class="fw-700">本月精選好書</h2>
+                <p class="text-muted">為您精心挑選的二手書珍品</p>
+            </div>
+
+            <!-- 輪播容器 -->
+            <div id="featuredBooksCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner" id="featured-books-carousel">
+                    <!-- 商品將由JavaScript動態載入 -->
+                </div>
+
+                <!-- 輪播控制按鈕 -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#featuredBooksCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">上一頁</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#featuredBooksCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">下一頁</span>
+                </button>
+
+                <!-- 指示器 -->
+                <div class="carousel-indicators" id="carousel-indicators">
+                    <!-- 指示器將由JavaScript動態生成 -->
+                </div>
+            </div>
+
+            <div class="text-center mt-4 animate-on-scroll">
+                <a href="20250310-product.html?category=全部"
+                    class="btn bg-003 text-white px-4 py-2 hover-effect">查看更多書籍</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 網站特色 Section -->
+    <div class="features-section py-5 bg-010">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 animate-on-scroll">
+                    <div class="features-content">
+                        <h2 class="fw-700">為什麼選擇 2ND BOOK？</h2>
+                        <p class="lead">我們讓舊書找到新的家，同時為地球盡一份心力</p>
+
+                        <div class="feature-item d-flex align-items-start mt-4">
+                            <div class="feature-icon bg-005">
+                                <i class="fa fa-leaf"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4 class="fw-600">環保永續</h4>
+                                <p>每一本二手書的流通，都能減少砍伐樹木與資源浪費。二手書比新書更環保，可減少碳排放並防止書籍被送往垃圾掩埋場</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item d-flex align-items-start mt-4">
+                            <div class="feature-icon bg-008">
+                                <i class="fa fa-coins"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4 class="fw-600">超值優惠</h4>
+                                <p>以市價3-7折的價格，擁有各類優質圖書，同時兼顧環保與省錢</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item d-flex align-items-start mt-4">
+                            <div class="feature-icon bg-012">
+                                <i class="fa fa-shield-alt"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4 class="fw-600">品質保證</h4>
+                                <p>所有書籍經過嚴格檢查與品質分級，讓您安心購買</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item d-flex align-items-start mt-4">
+                            <div class="feature-icon bg-006">
+                                <i class="fa fa-recycle"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4 class="fw-600">循環經濟</h4>
+                                <p>支持資源長期使用的循環經濟模式，減少浪費與資源消耗</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item d-flex align-items-start mt-4">
+                            <div class="feature-icon bg-009">
+                                <i class="fa fa-book-open"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4 class="fw-600">獨特藏書</h4>
+                                <p>擁有許多珍稀難尋的絕版書與特別版本，是書迷尋寶的天堂</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item d-flex align-items-start mt-4">
+                            <div class="feature-icon bg-007">
+                                <i class="fa fa-exchange-alt"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4 class="fw-600">書籍交換計畫</h4>
+                                <p>會員可參與我們獨特的書籍交換計畫，以舊換新，讓愛書生生不息</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item d-flex align-items-start mt-4">
+                            <div class="feature-icon bg-011">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4 class="fw-600">書友社群</h4>
+                                <p>加入我們的讀書會與活動，認識志同道合的書友，分享閱讀心得</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 animate-on-scroll" data-delay="200">
+                    <div class="signup-card">
+                        <div class="signup-header text-center">
+                            <h3 class="fw-700">加入會員，享受更多優惠</h3>
+                            <p>成為會員即享首購9折，還能參與書籍交換計畫</p>
+                        </div>
+
+                        <form class="signup-form mt-4">
+                            <div class="mb-3">
+                                <label for="username_reg_inline" class="form-label">帳號</label>
+                                <input type="text" class="form-control" id="username_reg_inline"
+                                    name="username_reg_inline" placeholder="3~6字">
+                                <div class="valid-feedback" id="inline_username_valid_feedback">符合</div>
+                                <div class="invalid-feedback" id="inline_username_invalid_feedback">不符合</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password_reg_inline" class="form-label">密碼</label>
+                                <input type="password" class="form-control" id="password_reg_inline"
+                                    name="password_reg_inline" placeholder="3~6字">
+                                <div class="valid-feedback">符合</div>
+                                <div class="invalid-feedback">不符合</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="re_password_reg_inline" class="form-label">確認密碼</label>
+                                <input type="password" class="form-control" id="re_password_reg_inline"
+                                    name="re_password_reg_inline">
+                                <div class="valid-feedback">符合</div>
+                                <div class="invalid-feedback">不符合</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email_reg_inline" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email_reg_inline" name="email_reg_inline"
+                                    placeholder="3~15字">
+                                <div class="valid-feedback">符合</div>
+                                <div class="invalid-feedback">不符合</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address_reg_inline" class="form-label">地址</label>
+                                <input type="text" class="form-control" id="address_reg_inline"
+                                    name="address_reg_inline" placeholder="3~15字">
+                                <div class="valid-feedback">符合</div>
+                                <div class="invalid-feedback">不符合</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="role_reg_inline" class="form-label">身份</label>
+                                <select class="form-select" id="role_reg_inline" name="role_reg_inline">
+                                    <option value="buyer" selected>買家</option>
+                                    <option value="seller">賣家</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 form-check form-switch">
+                                <input type="checkbox" class="form-check-input" role="switch" id="chk01_inline"
+                                    name="chk01_inline">
+                                <label for="chk01_inline" class="form-check-label">不同意</label>
+                                <div class="valid-feedback">我已同意會員守則</div>
+                                <div class="invalid-feedback">須同意後才能註冊</div>
+                            </div>
+                            <div class="mb-2 small text-muted">
+                                註冊即表示您同意我們的<a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">會員守則</a>和<a
+                                    href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">隱私政策</a>
+                            </div>
+
+                            <button type="button" class="btn bg-007 text-white w-100 py-2 hover-pulse mt3"
+                                id="ok_btn_reg_inline">立即註冊</button>
+                        </form>
+
+                        <div class="signup-footer text-center mt-3">
+                            <p>已有帳號？<a href="#" class="text-decoration-none" data-bs-toggle="modal"
+                                    data-bs-target="#loginModal">立即登入</a></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 聯絡我們 Section -->
+    <section id="s10" class="bg-013">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 bg-cover" style="background-color: var(--mycolor13);">
+                    <div class="row">
+                        <div class="col-md-9 m-3">
+                            <div class="h2 fw-900 my-1" style="color: var(--mycolor10);">聯絡我們</div>
+                            <p class="mt-3" style="color: var(--mycolor10);">
+                                電子郵件：contact@2ndbook.com<br>
+                                電話：+886-4-2345-6789<br>
+                                地址：台中市西屯區台灣大道三段99號
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 bg-cover" style="background-color: var(--mycolor13);">
+                    <div class="row">
+                        <div class="col-md-9 m-3">
+                            <div class="h2 fw-900 my-1" style="color: var(--mycolor10);">快速導航</div>
+                            <p class="mt-3" style="color: var(--mycolor10);">
+                                <a href="" style="color: var(--mycolor10); text-decoration: none;">常見問題</a><br>
+                                <a href="" style="color: var(--mycolor10); text-decoration: none;">條款與隱私政策</a><br>
+                                <a href="" style="color: var(--mycolor10); text-decoration: none;">退換貨政策</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 友善連結 Section -->
+    <section id="s12" class="bg-010">
+        <div class="container">
+            <div class="row bg-010">
+                <ul class="nav bg-010">
+                    <li class="nav-item">
+                        <a class="nav-link disabled">PowerBy 雲端班2024.12</a>
+                    </li>
+                    <li class="nav-item align-content-center m-auto">
+                        <a href=""><i class="fa-brands fa-square-facebook text-primary"></i></a>
+                        <a href=""><i class="fa-brands fa-square-x-twitter text-dark"></i></a>
+                        <a href=""><i class="fa-brands fa-line text-success"></i></a>
+                        <a href=""><i class="fa-brands fa-square-instagram text-warning"></i></a>
+                        <a href=""><i class="fa-brands fa-square-threads text-dark"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 必要的JavaScript -->
+    <script src="/js/wow.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/counterup2@2.0.2/dist/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/cookie.js"></script>
+    <script src="/js/jquery-3.7.1.min.js"></script>
+
+    <!-- 保留原有的JavaScript -->
+    <script>
+        var city;
+        var selectedCity; //紀錄所選縣市名稱
+        var selectedArea;
+        var flag_username_reg = false;
+        var flag_password_reg = false;
+        var flag_re_password_reg = false;
+        var flag_email_reg = false;
+        var flag_address_reg = false;
+        var flag_chk01_reg = false;
+        var flag_username_login = false;
+        var flag_password_login = false;
+
+        // 為內嵌註冊表單設置變數
+        var flag_username_reg_inline = false;
+        var flag_password_reg_inline = false;
+        var flag_re_password_reg_inline = false;
+        var flag_email_reg_inline = false;
+        var flag_address_reg_inline = false;
+        // 初始化內嵌註冊表單的同意條款變數
+        var flag_chk01_reg_inline = false;
+
+        // 同意條款勾選框的變更事件
+        $("#chk01_inline").change(function () {
+            if ($(this).is(':checked')) {
+                $(this).next().text("同意");
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+                flag_chk01_reg_inline = true;
+            } else {
+                $(this).next().text("不同意");
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                flag_chk01_reg_inline = false;
+            }
+        });
+
+        // 修改內嵌註冊表單提交事件
+        $("#ok_btn_reg_inline").click(function () {
+            // 檢查所有欄位是否有效
+            if (!flag_chk01_reg_inline) {
+                Swal.fire({
+                    title: "請同意會員守則",
+                    icon: "warning",
+                    confirmButtonText: "確認"
+                });
+                return;
+            }
+
+            if (flag_email_reg_inline && flag_password_reg_inline &&
+                flag_re_password_reg_inline && flag_username_reg_inline &&
+                flag_address_reg_inline && flag_chk01_reg_inline) {
+
+                var JSONdata = {};
+                JSONdata["username"] = $("#username_reg_inline").val();
+                JSONdata["password"] = $("#password_reg_inline").val();
+                JSONdata["email"] = $("#email_reg_inline").val();
+                JSONdata["address"] = $("#address_reg_inline").val();
+                JSONdata["role"] = $("#role_reg_inline").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "20250211-webcontrol-.api.php?action=register",
+                    data: JSON.stringify(JSONdata),
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.state) {
+                            Swal.fire({
+                                title: "註冊成功！",
+                                text: data.message,
+                                icon: "success",
+                                confirmButtonText: "立即登入"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#loginModal").modal("show");
+                                    $("#username_login").val($("#username_reg_inline").val());
+                                    // 清空註冊表單
+                                    $("#username_reg_inline").val("");
+                                    $("#password_reg_inline").val("");
+                                    $("#re_password_reg_inline").val("");
+                                    $("#email_reg_inline").val("");
+                                    $("#address_reg_inline").val("");
+                                    $("#chk01_inline").prop("checked", false).change();
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "註冊失敗",
+                                text: data.message,
+                                icon: "error"
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: "API介接錯誤",
+                            text: "20250211-webcontrol-.api.php?action=register",
+                            icon: "error"
+                        });
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "請檢查表單欄位",
+                    text: "請確保所有欄位都已正確填寫",
+                    icon: "warning",
+                    confirmButtonText: "確認"
+                });
+            }
+        });
+
+
+        // 帳號驗證
+        $("#username_reg_inline").bind("input propertychange", function () {
+            if ($(this).val().length > 2 && $(this).val().length < 7) {
+                // 傳遞至後端確認用戶名是否可以使用
+                var JSONdata = {};
+                JSONdata["username"] = $("#username_reg_inline").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "20250211-webcontrol-.api.php?action=checkuni",
+                    data: JSON.stringify(JSONdata),
+                    dataType: "json",
+                    success: function (data) {
+                        // 帳號不存在，可以使用
+                        if (data.state) {
+                            $("#username_reg_inline").removeClass("is-invalid");
+                            $("#username_reg_inline").addClass("is-valid");
+                            $("#inline_username_valid_feedback").text(data.message);
+                            flag_username_reg_inline = true;
+                        } else {
+                            // 帳號已存在，不可以使用
+                            $("#username_reg_inline").removeClass("is-valid");
+                            $("#username_reg_inline").addClass("is-invalid");
+                            $("#inline_username_invalid_feedback").text(data.message);
+                            flag_username_reg_inline = false;
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: "API介接錯誤",
+                            text: "20250211-webcontrol-.api.php?action=checkuni",
+                            icon: "error"
+                        });
+                    }
+                });
+            } else {
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                $("#inline_username_invalid_feedback").text("不符合");
+                flag_username_reg_inline = false;
+            }
+        });
+
+        // 密碼驗證
+        $("#password_reg_inline").bind("input propertychange", function () {
+            $("#re_password_reg_inline").removeClass("is-valid");
+            $("#re_password_reg_inline").addClass("is-invalid");
+            if ($(this).val().length > 2 && $(this).val().length < 7) {
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+                flag_password_reg_inline = true;
+            } else {
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                flag_password_reg_inline = false;
+            }
+        });
+
+        // 確認密碼驗證
+        $("#re_password_reg_inline").bind("input propertychange", function () {
+            if (flag_password_reg_inline && $(this).val() === $("#password_reg_inline").val()) {
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+                flag_re_password_reg_inline = true;
+            } else {
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                flag_re_password_reg_inline = false;
+            }
+        });
+
+        // Email驗證
+        $("#email_reg_inline").bind("input propertychange", function () {
+            if ($(this).val().length > 2 && $(this).val().length < 25) {
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+                flag_email_reg_inline = true;
+            } else {
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                flag_email_reg_inline = false;
+            }
+        });
+
+        // 地址驗證
+        $("#address_reg_inline").bind("input propertychange", function () {
+            if ($(this).val().length > 2 && $(this).val().length < 25) {
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+                flag_address_reg_inline = true;
+            } else {
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                flag_address_reg_inline = false;
+            }
+        });
+
+        // 註冊按鈕事件
+        // $("#ok_btn_reg_inline").click(function () {
+        //     if (flag_chk01_reg_inline && flag_email_reg_inline && flag_password_reg_inline &&
+        //         flag_re_password_reg_inline && flag_username_reg_inline && flag_address_reg_inline) {
+
+        //         var JSONdata = {};
+        //         JSONdata["username"] = $("#username_reg_inline").val();
+        //         JSONdata["password"] = $("#password_reg_inline").val();
+        //         JSONdata["email"] = $("#email_reg_inline").val();
+        //         JSONdata["address"] = $("#address_reg_inline").val();
+        //         JSONdata["role"] = $("#role_reg_inline").val();
+
+        //         $.ajax({
+        //             type: "POST",
+        //             url: "20250211-webcontrol-.api.php?action=register",
+        //             data: JSON.stringify(JSONdata),
+        //             dataType: "json",
+        //             success: showdata_reg,
+        //             error: function () {
+        //                 Swal.fire({
+        //                     title: "API介接錯誤",
+        //                     text: "20250211-webcontrol-.api.php?action=register",
+        //                     icon: "error"
+        //                 });
+        //             }
+        //         });
+        //     } else {
+        //         Swal.fire({
+        //             title: "欄位有誤，請修正",
+        //             icon: "warning",
+        //             showCancelButton: false,
+        //             confirmButtonColor: "#3085d6",
+        //             cancelButtonColor: "#d33",
+        //             confirmButtonText: "確認"
+        //         });
+        //     }
+        // });
+
+        // 載入Hero區域的書籍
+        function loadHeroBook() {
+            $.ajax({
+                type: "GET",
+                url: "20250211-webcontrol-.api.php?action=allproducts",
+                dataType: "json",
+                success: function (response) {
+                    if (response.state) {
+                        var products = response.data;
+                        // 隨機選擇一本書顯示在首頁Hero部分
+                        if (products.length > 0) {
+                            var randomIndex = Math.floor(Math.random() * products.length);
+                            var heroBook = products[randomIndex];
+                            displayHeroBook(heroBook);
+                        }
+                    } else {
+                        $(".book-showcase").html("<p class='text-center'>查無上架商品</p>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX 錯誤:", error);
+                    $(".book-showcase").html("<p class='text-center'>無法載入書籍資訊</p>");
+                }
+            });
+        }
+
+        // 顯示Hero區域的書籍
+        function displayHeroBook(book) {
+            var html = '<div class="book-carousel">';
+            html += '    <div class="book-item myrollerl">';
+            html += '        <img src="upload/' + book.thumbnail + '" alt="' + book.name + '" class="img-fluid book-cover" style="display: block; margin: 0 auto; max-height: 350px; object-fit: contain;">';
+            html += '        <div class="rollerl">';
+            html += '            <div class="book-details">';
+            html += '                <h4 class="fw-600" style="color: var(--mycolor10);">' + book.name + '</h4>';
+            html += '                <button class="btn bg-005 text-white btn-sm hover-pulse add-to-cart" data-menu-id="' + book.menu_id + '">加入購物車</button> ';
+            html += '                <button class="btn bg-007 text-white btn-sm hover-pulse buy-now" data-menu-id="' + book.menu_id + '">立即購買</button>';
+            html += '            </div>';
+            html += '        </div>';
+            html += '    </div>';
+            html += '</div>';
+
+            $(".book-showcase").html(html);
+        }
+
+        function buyNow(menu_id) {
+            var uid01 = getCookie("Uid01");
+            if (!uid01) {
+                Swal.fire({
+                    title: "請先登入會員",
+                    icon: "info",
+                    allowOutsideClick: false
+                }).then(function () {
+                    location.href = "20250211-login-test.html";
+                });
+                return;
+            }
+
+            // 跳轉到結帳頁面，並帶上商品ID
+            window.location.href = "checkout.html?menu_id=" + menu_id;
+        }
+
+
+
+        // 頁面載入時執行
+        $(document).ready(function () {
+            loadFeaturedBooks(); // 已有的函數，載入本月精選書籍
+            loadHeroBook();      // 新增：載入Hero區域的書籍
+
+            // 已有的動畫效果處理...
+            setTimeout(function () {
+                const animateElements = document.querySelectorAll('.animate-on-scroll');
+                animateElements.forEach(element => {
+                    element.classList.add('active');
+                });
+            }, 1000);
+
+            // 已有的事件處理器...
+            $(document).on("click", ".add-to-cart", function () {
+                var menu_id = $(this).data("menu-id");
+                addToCart(menu_id);
+            });
+
+            $(document).on("click", ".buy-now", function () {
+                var menu_id = $(this).data("menu-id");
+                buyNow(menu_id);
+            });
+        });
+
+        function loadFeaturedBooks() {
+            console.log("開始載入精選書籍...");
+            $.ajax({
+                type: "GET",
+                url: "20250211-webcontrol-.api.php?action=allproducts",
+                dataType: "json",
+                success: function (response) {
+                    console.log("API 回應:", response);
+                    if (response.state) {
+                        var products = response.data;
+                        console.log("取得商品數量:", products.length);
+
+                        // 選擇4本書作為本月精選
+                        var featured = [];
+
+                        if (products.length <= 4) {
+                            featured = products;
+                        } else {
+                            var indexes = [];
+                            while (indexes.length < 4) {
+                                var idx = Math.floor(Math.random() * products.length);
+                                if (indexes.indexOf(idx) === -1) {
+                                    indexes.push(idx);
+                                    featured.push(products[idx]);
+                                }
+                            }
+                        }
+
+                        console.log("精選書籍數量:", featured.length);
+                        displayFeaturedBooks(featured);
+                    } else {
+                        console.log("API 回應顯示沒有商品:", response.message);
+                        $("#featured-books").html("<p class='text-center'>查無上架商品</p>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX 錯誤:", error);
+                    console.log("狀態:", status);
+                    console.log("回應:", xhr.responseText);
+                    $("#featured-books").html("<p class='text-center'>無法載入精選書籍</p>");
+                }
+            });
+        }
+
+
+        // 顯示精選書籍
+        function displayFeaturedBooks(books) {
+            if (books.length === 0) {
+                $("#featured-books-carousel").html("<p class='text-center p-5'>本月尚無精選書籍</p>");
+                return;
+            }
+
+            var carouselItems = '';
+            var indicators = '';
+
+            // 每個輪播項顯示多本書
+            var booksPerSlide = 4; // 一頁顯示4本
+            var slidesCount = Math.ceil(books.length / booksPerSlide);
+
+            for (var i = 0; i < slidesCount; i++) {
+                // 建立輪播項
+                carouselItems += '<div class="carousel-item ' + (i === 0 ? 'active' : '') + '">';
+                carouselItems += '<div class="row">';
+
+                // 獲取當前輪播項的書籍
+                var startIdx = i * booksPerSlide;
+                var endIdx = Math.min(startIdx + booksPerSlide, books.length);
+
+                for (var j = startIdx; j < endIdx; j++) {
+                    var book = books[j];
+
+                    carouselItems += '<div class="col-lg-3 col-md-4 col-6 mb-4">';
+                    carouselItems += '  <div class="book-card animate-on-scroll">';
+                    carouselItems += '    <div class="book-thumb">';
+                    carouselItems += '      <img src="upload/' + book.thumbnail + '" alt="' + book.name + '" class="img-fluid">';
+                    carouselItems += '      <div class="book-badge bg-007">精選</div>';
+                    carouselItems += '    </div>';
+                    carouselItems += '    <div class="book-info">';
+                    carouselItems += '      <h5 class="book-title fw-600 mb-2" >' + book.name + '</h5>';
+                    carouselItems += '      <p class="book-author">' + (book.category || "") + '</p>';
+                    carouselItems += '      <div class="book-price">';
+                    carouselItems += '        <span class="price-new" style="color: black;">$' + book.price + '</span>';
+                    carouselItems += '      </div>';
+                    carouselItems += '    </div>';
+                    carouselItems += '    <div class="d-flex justify-content-between align-items-center px-3 pb-3">';
+                    carouselItems += '      <div class="book-condition">二手書</div>';
+                    carouselItems += '      <div class="book-actions" style="padding: 0;">';
+                    carouselItems += '        <button class="btn bg-005 text-white btn-sm btn-primary add-to-cart" data-menu-id="' + book.menu_id + '">加入購物車</button>';
+                    carouselItems += '        <button class="btn bg-003 text-white btn-sm btn-warning buy-now" data-menu-id="' + book.menu_id + '">直接購買</button>';
+                    carouselItems += '      </div>';
+                    carouselItems += '    </div>';
+                    carouselItems += '  </div>';
+                    carouselItems += '</div>';
+                }
+
+
+                carouselItems += '</div>'; // 結束 row
+                carouselItems += '</div>'; // 結束 carousel-item
+
+                // 建立指示器
+                indicators += '<button type="button" data-bs-target="#featuredBooksCarousel" data-bs-slide-to="' + i + '" ' +
+                    (i === 0 ? 'class="active" aria-current="true"' : '') + ' aria-label="第 ' + (i + 1) + ' 頁"></button>';
+            }
+
+            // 更新DOM
+            $("#featured-books-carousel").html(carouselItems);
+            $("#carousel-indicators").html(indicators);
+
+            // 確保元素存在後再初始化輪播
+            setTimeout(function () {
+                const carouselElement = document.getElementById('featuredBooksCarousel');
+                if (carouselElement) {
+                    var carousel = new bootstrap.Carousel(carouselElement, {
+                        interval: 5000,
+                        wrap: true
+                    });
+                }
+            }, 100);
+        }
+
+        function loadFeaturedBooks() {
+            console.log("開始載入精選書籍...");
+            $.ajax({
+                type: "GET",
+                url: "20250211-webcontrol-.api.php?action=allproducts",
+                dataType: "json",
+                success: function (response) {
+                    console.log("API 回應:", response);
+                    if (response.state) {
+                        var products = response.data;
+                        console.log("取得商品數量:", products.length);
+
+                        // 選擇適當數量的書籍作為精選
+                        var featured = products;
+
+                        console.log("精選書籍數量:", featured.length);
+                        displayFeaturedBooks(featured);
+
+                        // 確保元素存在後再初始化輪播
+                        setTimeout(function () {
+                            const carouselElement = document.getElementById('featuredBooksCarousel');
+                            if (carouselElement) {
+                                try {
+                                    var carousel = new bootstrap.Carousel(carouselElement, {
+                                        interval: 3500,
+                                        wrap: true
+                                    });
+                                    console.log("輪播初始化成功");
+                                } catch (error) {
+                                    console.error("輪播初始化失敗:", error);
+                                }
+                            } else {
+                                console.error("找不到輪播元素");
+                            }
+                        }, 500);
+                    } else {
+                        console.log("API 回應顯示沒有商品:", response.message);
+                        $("#featured-books-carousel").html("<p class='text-center'>查無上架商品</p>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX 錯誤:", error);
+                    $("#featured-books-carousel").html("<p class='text-center'>無法載入精選書籍</p>");
+                }
+            });
+        }
+
+
+
+        // 頁面載入時執行
+        $(document).ready(function () {
+            loadFeaturedBooks();
+
+            // 強制檢查元素可見性
+            setTimeout(function () {
+                const animateElements = document.querySelectorAll('.animate-on-scroll');
+                animateElements.forEach(element => {
+                    element.classList.add('active');
+                });
+            }, 1000); // 延遲1秒確保內容已載入
+
+            // 為動態生成的按鈕添加事件處理
+            $(document).on("click", ".add-to-cart", function () {
+                var menu_id = $(this).data("menu-id");
+                addToCart(menu_id);
+            });
+
+            $(document).on("click", ".buy-now", function () {
+                var menu_id = $(this).data("menu-id");
+                buyNow(menu_id);
+            });
+
+            // 綁定首頁所有「直接購買」按鈕的點擊事件
+            $(document).on("click", ".buy-now", function () {
+                var menu_id = $(this).data("menu-id");
+                buyNow(menu_id);
+            });
+
+            // 特別處理首頁Hero區域的「立即購買」按鈕
+            $(document).on("click", ".hero-section .buy-now, .hero-section button:contains('立即購買')", function () {
+                var menu_id = $(this).data("menu-id");
+                buyNow(menu_id);
+            });
+        });
+
+
+
+        // 加入購物車功能
+        function addToCart(menu_id) {
+            var uid01 = getCookie("Uid01");
+            if (!uid01) {
+                Swal.fire({
+                    title: "請先登入會員",
+                    icon: "info",
+                    allowOutsideClick: false
+                }).then(function () {
+                    location.href = "20250211-login-test.html";
+                });
+                return;
+            }
+
+            var data = JSON.stringify({ uid01: uid01, menu_id: menu_id });
+            $.ajax({
+                type: "POST",
+                url: "20250211-webcontrol-.api.php?action=cart_add",
+                data: data,
+                dataType: "json",
+                success: function (response) {
+                    if (response.state) {
+                        Swal.fire({ title: "已加入購物車", icon: "success" });
+                    } else {
+                        // 可根據返回訊息進行判斷
+                        if (response.message === "加入購物車失敗") {
+                            Swal.fire({
+                                title: "商品已在購物車中",
+                                text: "您可以在購物車頁面查看",
+                                icon: "info"
+                            });
+                        } else {
+                            Swal.fire({ title: "加入購物車失敗：" + response.message, icon: "error" });
+                        }
+                    }
+                }
+            });
+        }
+
+
+
+
+        function proceedDirectPurchase(menu_id) {
+            var uid01 = getCookie("Uid01");
+            $.ajax({
+                type: "POST",
+                url: "20250211-webcontrol-.api.php?action=order_create_direct",
+                data: JSON.stringify({ uid01: uid01, menu_id: menu_id }),
+                dataType: "json",
+                success: function (orderResp) {
+                    if (orderResp.state) {
+                        Swal.fire({
+                            title: "訂單建立成功，訂單編號：" + orderResp.data.order_id,
+                            icon: "success"
+                        }).then(function () {
+                            // 重新載入精選書籍，因為該書已被購買
+                            loadFeaturedBooks();
+                        });
+                    } else {
+                        Swal.fire({ title: "建立訂單失敗：" + orderResp.message, icon: "error" });
+                    }
+                },
+                error: function () {
+                    Swal.fire({ title: "訂單建立 API 錯誤", icon: "error" });
+                }
+            });
+        }
+
+
+        // 滾動動畫效果
+        document.addEventListener('DOMContentLoaded', function () {
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+            function checkScroll() {
+                const triggerBottom = window.innerHeight * 0.8;
+
+                animateElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+
+                    if (elementTop < triggerBottom) {
+                        const delay = element.getAttribute('data-delay') || 0;
+                        setTimeout(() => {
+                            element.classList.add('active');
+                        }, delay);
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', checkScroll);
+            checkScroll(); // 初始檢查
+
+            // 書籍輪播效果（可以在未來擴展）
+            const bookItems = document.querySelectorAll('.book-item');
+            let currentIndex = 0;
+
+            function showNextBook() {
+                bookItems[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % bookItems.length;
+                bookItems[currentIndex].classList.add('active');
+            }
+
+            // 如果有多個書籍，可以啟用自動輪播
+            if (bookItems.length > 1) {
+                setInterval(showNextBook, 5000);
+            }
+
+            // 為所有卡片添加初始類別
+            bookItems.forEach((item, index) => {
+                if (index === 0) item.classList.add('active');
+            });
+        });
+
+
+        // 綁定登入 Modal 中的 Enter 鍵事件
+        $("#loginModal").on("keydown", function (e) {
+            if (e.key === "Enter") {  // 或者使用 e.which === 13
+                e.preventDefault();
+                $("#ok_btn_login").click();
+            }
+        });
+
+        // 綁定註冊 Modal 中的 Enter 鍵事件
+        $("#registerModal").on("keydown", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                $("#ok_btn_reg").click();
+            }
+        });
+
+
+        //確認uid01是否存在
+        if (getCookie("Uid01")) {
+            //將uid01傳遞至後端API執行驗證
+            //input{"uid01" : "0d0709d1"}
+            var JSONdata = {};
+            JSONdata["uid01"] = getCookie("Uid01");
+            console.log(JSON.stringify(JSONdata));
+
+            $.ajax({
+                type: "POST",
+                url: "20250211-webcontrol-.api.php?action=checkuid",
+                data: JSON.stringify(JSONdata),
+                dataType: "json",
+                success: showdata_checkuid,
+                error: function () {
+                    Swal.fire({
+                        title: "API介接錯誤",
+                        text: "20250211-webcontrol-.api.php?action=checkuid",
+                        icon: "error"
+                    });
+                }
+            })
+
+        } else {
+            Swal.fire({
+                title: "請先登入會員",
+                icon: "info",
+                allowOutsideClick: false,
+            });
+        }
+
+        $("#username_reg").bind("input propertychange", function () {
+            if ($(this).val().length > 2 && $(this).val().length < 7) {
+
+                //傳遞至後端確認用戶名是否可以使用
+                //input:{"username" : "xxxxxx"}
+                var JSONdata = {};
+                JSONdata["username"] = $("#username_reg").val();
+                console.log(JSON.stringify(JSONdata));
+
+                $.ajax({
+                    type: "POST",
+                    url: "20250211-webcontrol-.api.php?action=checkuni",
+                    data: JSON.stringify(JSONdata),
+                    dataType: "json",
+                    success: showdata_checkuni,
+                    error: function () {
+                        Swal.fire({
+                            title: "API介接錯誤",
+                            text: "20250211-webcontrol-.api.php?action=checkuni",
+                            icon: "error"
+                        });
+                    }
+                });
+
+            } else {
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                $("#regModal_username_invalid_feedback").text("不符合");
+                flag_username_reg = false;
+            }
+        });
+
+        $("#password_reg").bind("input propertychange", function () {
+
+            $("#re_password_reg").removeClass("is-valid");
+            $("#re_password_reg").addClass("is-invalid");
+            if ($(this).val().length > 2 && $(this).val().length < 7) {
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+                flag_password_reg = true;
+            } else {
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                flag_password_reg = false;
+            }
+        });
+
+        $("#re_password_reg").bind("input propertychange", function () {
+            if (flag_password_reg && $(this).val() === $("#password_reg").val()) {
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+                flag_re_password_reg = true;
+            } else {
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                flag_re_password_reg = false;
+            }
+        });
+
+        $("#email_reg").bind("input propertychange", function () {
+            if ($(this).val().length > 2 && $(this).val().length < 25) {
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+                flag_email_reg = true;
+            } else {
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                flag_email_reg = false;
+            }
+        });
+
+        $("#address_reg").bind("input propertychange", function () {
+            if ($(this).val().length > 2 && $(this).val().length < 25) {
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+                flag_address_reg = true;
+            } else {
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                flag_address_reg = false;
+            }
+        });
+
+        $("#chk01").change(function () {
+            console.log($(this).is(':checked'));
+            if ($(this).is(':checked')) {
+                $(this).next().text("同意");
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+                flag_chk01_reg = true;
+            } else {
+                $(this).next().text("不同意");
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                flag_chk01_reg = false;
+            }
+        });
+
+        $("#username_login").bind("input propertychange", function () {
+            if ($(this).val().length > 0) {
+                $(this).removeClass("is-invalid");
+                flag_username_login = true;
+            } else {
+                $(this).addClass("is-invalid");
+                flag_username_login = false;
+            }
+        });
+
+        $("#password_login").bind("input propertychange", function () {
+            if ($(this).val().length > 0) {
+                $(this).removeClass("is-invalid");
+                flag_password_login = true;
+            } else {
+                $(this).addClass("is-invalid");
+                flag_password_login = false;
+            }
+        });
+
+        $("#ok_btn_reg").click(function () {
+            if (flag_chk01_reg && flag_email_reg && flag_password_reg && flag_re_password_reg && flag_username_reg && flag_address_reg) {
+
+                var JSONdata = {};
+                JSONdata["username"] = $("#username_reg").val();
+                JSONdata["password"] = $("#password_reg").val();
+                JSONdata["email"] = $("#email_reg").val();
+                JSONdata["address"] = $("#address_reg").val();
+                JSONdata["role"] = $("#role_reg").val();
+                console.log(JSON.stringify(JSONdata));
+
+                $.ajax({
+                    type: "POST",
+                    url: "20250211-webcontrol-.api.php?action=register",
+                    data: JSON.stringify(JSONdata),
+                    dataType: "json",
+                    success: showdata_reg,
+                    error: function () {
+                        Swal.fire({
+                            title: "API介接錯誤",
+                            text: "20250211-webcontrol-.api.php?action=register",
+                            icon: "error"
+                        });
+                    }
+                });
+
+            } else {
+                Swal.fire({
+                    title: "欄位有誤，請修正",
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "確認"
+                });
+            }
+        });
+
+        $("#ok_btn_login").click(function () {
+            if (flag_username_login && flag_password_login) {
+                //傳遞後端API執行登入行為
+                //input :　{"username" : "owner01", "password" : "123456"}
+                var JSONdata = {};
+                JSONdata["username"] = $("#username_login").val();
+                JSONdata["password"] = $("#password_login").val();
+                console.log(JSON.stringify(JSONdata));
+
+                $.ajax({
+                    type: "POST",
+                    url: "20250211-webcontrol-.api.php?action=login",
+                    data: JSON.stringify(JSONdata),
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.state) {
+                            // 登入成功
+                            showdata_login(response);
+                        } else {
+                            // 顯示後端回傳的錯誤訊息
+                            Swal.fire({
+                                title: "登入失敗",
+                                text: response.message,
+                                icon: "error",
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: "API介接錯誤",
+                            text: "20250211-webcontrol-.api.php?action=login",
+                            icon: "error",
+                        });
+                    }
+                });
+
+            } else {
+                Swal.fire({
+                    title: "欄位有誤，請修正",
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "確認"
+                });
+            }
+        });
+
+        function showdata_reg(data) {
+            console.log(data);
+            if (data.state) {
+                Swal.fire({
+                    title: data.message,
+                    icon: "success"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = "20250211-login-test.html";
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: data.message,
+                    icon: "error"
+                });
+            }
+        }
+
+        function showdata_login(data) {
+            console.log(data);
+            if (data.state) {
+                if (data.state) {
+                    Swal.fire({
+                        title: data.message,
+                        icon: "success"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            //loginModal消失
+                            $("#loginModal").modal("hide");
+
+                            //顯示歡迎訊息
+                            $("#s02_username_showtext").removeClass("d-none");
+                            $("#s02_username_text").text(data.data.Username);
+
+                            //隱藏註冊與登入按鈕
+                            $("#s02_reg_btn").addClass("d-none");
+                            $("#s02_login_btn").addClass("d-none");
+
+                            //顯示登出按鈕
+                            $("#s02_logout_btn").removeClass("d-none");
+
+                            //顯示會員中心按鈕
+                            $("#s02_member_btn").removeClass("d-none");
+
+                            // 根據用戶角色顯示或隱藏「商品上傳」選項
+                            if (data.data.role === "seller") {
+                                $("#s02_upload_btn").removeClass("d-none");
+                            } else {
+                                $("#s02_upload_btn").addClass("d-none");
+                            }
+
+                            //uid驗證碼寫入cookie
+                            setCookie("Uid01", data.data.Uid01, 7);
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: data.message,
+                        icon: "error"
+                    });
+                }
+            }
+        }
+
+        function showdata_checkuid(data) {
+            console.log(data);
+            if (data.state) {
+                //顯示歡迎訊息
+                $("#s02_username_showtext").removeClass("d-none");
+                $("#s02_username_text").text(data.data.Username);
+
+                //隱藏註冊與登入按鈕
+                $("#s02_reg_btn").addClass("d-none");
+                $("#s02_login_btn").addClass("d-none");
+
+                //顯示登出按鈕
+                $("#s02_logout_btn").removeClass("d-none");
+
+                //顯示會員中心按鈕
+                $("#s02_member_btn").removeClass("d-none");
+
+                // 根據用戶角色顯示或隱藏「商品上傳」選項
+                if (data.data.role === "seller") {
+                    $("#s02_upload_btn").removeClass("d-none");
+                } else {
+                    $("#s02_upload_btn").addClass("d-none");
+                }
+            }
+        }
+
+        function showdata_checkuni(data) {
+            console.log(data);
+            //帳號不存在，可以使用
+            if (data.state) {
+                $("#username_reg").removeClass("is-invalid");
+                $("#username_reg").addClass("is-valid");
+                $("#regModal_username_valid_feedback").text(data.message);
+                flag_username_reg = true;
+                //帳號已存在，不可以使用
+            } else {
+                $("#username_reg").removeClass("is-valid");
+                $("#username_reg").addClass("is-invalid");
+                $("#regModal_username_invalid_feedback").text(data.message);
+                flag_username_reg = false;
+            }
+        }
+
+        //s02_logout_btn 按鈕監聽
+        $("#s02_logout_btn").click(function () {
+            setCookie("Uid01", "", 7);
+            location.href = "20250211-login-test.html";
+        });
+    </script>
+</body>
+
+</html>

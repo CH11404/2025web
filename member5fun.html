@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>限定活動</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/all.min.css" />
+    <link rel="stylesheet" href="css/mycss.css" />
+    <style>
+        body {
+            background-color: var(--mycolor14);
+        }
+
+        .navbar {
+            background-color: var(--mycolor10);
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: var(--mycolor13) !important;
+        }
+
+        .nav-link.active {
+            font-weight: bold;
+        }
+
+        .card {
+            background-color: var(--mycolor01);
+            border: 2px solid var(--mycolor13);
+        }
+
+        .card-header {
+            background-color: var(--mycolor13);
+            color: #fff;
+        }
+
+        .btn-primary {
+            background-color: var(--mycolor13);
+            border-color: var(--mycolor13);
+        }
+
+        .btn-warning {
+            background-color: var(--mycolor11);
+            border-color: var(--mycolor11);
+        }
+
+        /* 使列表組合與網站色調一致 */
+        .list-group-item {
+            background-color: var(--mycolor01);
+            border: 1px solid var(--mycolor13);
+        }
+
+        .list-group-item strong {
+            color: var(--mycolor13);
+        }
+    </style>
+</head>
+
+<body>
+    <section id="s02" class="bg-010">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <i class="fa-solid fa-handshake fa-1x m-auto" style="color: var(--mycolor13);"></i>
+                        <span style="color: var(--mycolor13); letter-spacing: 0.1em;">限定活動</span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="20250211-login-test.html">首頁</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active"
+                                    href="/20250211-login-test_member_control_panel.html">會員專區</a>
+                            </li>
+                        </ul>
+                        <div>
+                            <span class="h5 px-3 py-1 rounded-3"
+                                style="color: white; background: linear-gradient(45deg, var(--mycolor04), #ff6b6b); box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
+                                id="s02_username_text">XXX</span>
+                            <button class="btn bg-013 d-none ms-3" id="s02_logout_btn">
+                                <span style="color: whitesmoke;">登出</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <!-- VIP會員活動內容區塊 -->
+    <div class="container my-5">
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="fa-solid fa-calendar-alt me-2"></i>2025年VIP會員專屬活動
+                </h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    我們為VIP會員精心策劃各式活動，包括線上交流會、專題講座、小型聚會與工作坊，讓您能與志同道合的夥伴共同交流與成長！
+                </p>
+                <!-- 活動清單示例 -->
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>【精英聚焦】線上交流會 - 探索創新科技趨勢</strong> - 2025/04/15
+                        <button class="btn btn-primary btn-sm">報名</button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>【洞見未來】VIP專題講座 - 全球市場動態</strong> - 2025/05/10
+                        <button class="btn btn-primary btn-sm">報名</button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>【親密交流】小型聚會 - 深度分享會</strong> - 2025/06/20
+                        <button class="btn btn-primary btn-sm">報名</button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>【數位轉型】線上論壇 - 探討科技革新</strong> - 2025/07/25
+                        <button class="btn btn-primary btn-sm">報名</button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>【創業啟示錄】專題講座 - 從創新到實踐</strong> - 2025/08/18
+                        <button class="btn btn-primary btn-sm">報名</button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>【社群力量】小型聚會 - 精英圓桌對話</strong> - 2025/09/12
+                        <button class="btn btn-primary btn-sm">報名</button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>【品牌風範】線上工作坊 - 打造獨特個人品牌</strong> - 2025/10/10
+                        <button class="btn btn-primary btn-sm">報名</button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>【智匯未來】圓桌論壇 - 智能創新與永續發展</strong> - 2025/11/05
+                        <button class="btn btn-primary btn-sm">報名</button>
+                    </li>
+                </ul>
+                <button class="btn btn-warning">查看更多活動</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/cookie.js"></script>
+    <script>
+        // 會員驗證與會員等級檢查 (僅允許會員等級 5 以上使用 VIP 活動)
+        if (getCookie("Uid01")) {
+            var JSONdata = { "uid01": getCookie("Uid01") };
+            $.ajax({
+                type: "POST",
+                url: "20250211-webcontrol-.api.php?action=checkuid",
+                data: JSON.stringify(JSONdata),
+                dataType: "json",
+                success: function (data) {
+                    if (data.state) {
+                        $("#s02_username_text").text(data.data.Username);
+                        $("#s02_logout_btn").removeClass("d-none");
+                        var orders = parseInt(data.data.order_count);
+                        var level = orders > 0 ? Math.min(5, Math.ceil((orders + 1) / 5)) : 1;
+                        if (level < 5) {
+                            Swal.fire({
+                                title: "會員等級不足",
+                                text: "此活動僅限會員等級 5 以上使用",
+                                icon: "info"
+                            }).then(function () {
+                                window.location.href = "20250211-login-test_member_control_panel.html";
+                            });
+                        }
+                    } else {
+                        Swal.fire({ title: "驗證失敗", icon: "error" });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        title: "API介接錯誤",
+                        text: "無法取得使用者資料",
+                        icon: "error"
+                    });
+                }
+            });
+        } else {
+            Swal.fire({
+                title: "請先登入會員",
+                icon: "info",
+                allowOutsideClick: false
+            }).then(function () {
+                location.href = "20250211-login-test.html";
+            });
+        }
+
+        // 活動報名按鈕點擊事件 (範例功能)
+        $(".btn-primary").click(function () {
+            Swal.fire({
+                title: "報名成功",
+                text: "您已成功報名此活動，活動詳情將會發送至您的信箱。",
+                icon: "success"
+            });
+        });
+
+        // 登出按鈕
+        $("#s02_logout_btn").click(function () {
+            setCookie("Uid01", "", 7);
+            location.href = "20250211-login-test.html";
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>產品建檔</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/all.min.css">
+  <link rel="stylesheet" href="css/mycss.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    body {
+      background-color: var(--mycolor14);
+    }
+
+    .navbar {
+      background-color: var(--mycolor10);
+    }
+
+    .navbar-brand,
+    .nav-link {
+      color: var(--mycolor13) !important;
+    }
+
+    .nav-link.active {
+      font-weight: bold;
+    }
+
+    .card {
+      background-color: var(--mycolor01);
+      border: 2px solid var(--mycolor13);
+    }
+
+    .card-header {
+      background-color: var(--mycolor13);
+      color: #fff;
+    }
+
+    .btn-primary {
+      background-color: var(--mycolor13);
+      border-color: var(--mycolor13);
+    }
+
+    .btn-warning {
+      background-color: var(--mycolor11);
+      border-color: var(--mycolor11);
+    }
+
+    .list-group-item {
+      background-color: var(--mycolor01);
+      border: 1px solid var(--mycolor13);
+    }
+
+    .list-group-item strong {
+      color: var(--mycolor13);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 導覽列 -->
+  <section id="s02" class="bg-010">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg bg-010">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            <i class="fa-solid fa-book fa-1x m-auto" style="color: var(--mycolor13);"></i>
+            <span style="color: var(--mycolor13); letter-spacing: 0.1em;">產品管理介面</span>
+          </a>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" href="20250211-login-test.html">首頁</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/20250211-login-test_member_control_panel.html">會員專區</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/20250305-test-R-product.html">管理商品</a>
+              </li>
+            </ul>
+            <div>
+              <span class="h5 px-3 py-1 rounded-3"
+                style="color: white; background: linear-gradient(45deg, var(--mycolor04), #ff6b6b); box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
+                id="s02_username_text">XXX</span>
+              <button class="btn bg-013 d-none ms-3" id="s02_logout_btn">
+                <span style="color: whitesmoke;">登出</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 產品建檔表單 -->
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow">
+          <div class="card-body">
+            <form id="productForm" enctype="multipart/form-data">
+              <!-- ISBN 輸入欄位 -->
+              <div class="mb-3">
+                <label class="form-label">ISBN</label>
+                <input type="text" id="isbnInput" class="form-control" placeholder="輸入ISBN">
+              </div>
+
+              <!-- 產品名稱 -->
+              <div class="mb-3">
+                <label class="form-label">產品名稱</label>
+                <input type="text" name="name" id="productName" class="form-control" required minlength="2"
+                  maxlength="50">
+                <div id="nameFeedback" class="invalid-feedback">請輸入2-50字元產品名稱</div>
+              </div>
+
+              <!-- 產品價格 -->
+              <div class="mb-3">
+                <label class="form-label">價格</label>
+                <input type="number" name="price" class="form-control" required min="1" max="99999">
+                <div class="invalid-feedback">請輸入有效價格(1-99999)</div>
+              </div>
+
+              <!-- 產品分類 -->
+              <div class="mb-3">
+                <label class="form-label">分類</label>
+                <select name="category" class="form-select" required>
+                  <option value="" disabled selected>選擇分類</option>
+                  <!-- 若 API 回傳的分類不在預設選項中，將自動新增 -->
+                  <option value="童書">童書</option>
+                  <option value="旅遊">旅遊</option>
+                  <option value="科幻">科幻</option>
+                  <option value="奇幻">奇幻</option>
+                  <option value="愛情">愛情</option>
+                  <option value="懸疑">懸疑</option>
+                  <option value="歷史">歷史</option>
+                  <option value="傳記">傳記</option>
+                  <option value="食譜">食譜</option>
+                  <option value="心理學">心理學</option>
+                  <option value="專業書籍">專業書籍</option>
+                  <option value="商業理財">商業理財</option>
+                  <option value="外語學習">外語學習</option>
+                  <option value="藝術設計">藝術設計</option>
+                  <option value="醫療保健">醫療保健</option>
+                </select>
+                <div class="invalid-feedback">請選擇商品分類</div>
+              </div>
+
+              <!-- 產品描述 (自動填入多項資訊) -->
+              <div class="mb-3">
+                <label class="form-label">產品描述</label>
+                <textarea name="description" class="form-control" rows="5" maxlength="255"></textarea>
+              </div>
+
+              <!-- 新增隱藏欄位，用來存放自動抓取的圖片 URL -->
+              <input type="hidden" id="captured_image" name="captured_image" value="">
+
+              <!-- 圖片上傳（預設顯示，若有抓取到圖片則隱藏） -->
+              <div class="mb-3" id="fileUploadDiv">
+                <label class="form-label">商品圖片</label>
+                <input type="file" name="image" id="fileInput" class="form-control" accept="image/jpeg, image/png"
+                  required>
+                <div class="invalid-feedback">請上傳 JPEG/PNG 格式圖片</div>
+              </div>
+              <!-- 預覽區 -->
+              <div class="mt-2" id="imagePreview"></div>
+
+              <!-- 提交與重置按鈕 -->
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">上架商品</button>
+                <button type="reset" class="btn btn-outline-secondary">重設</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 引入必要的 JS 函式庫 -->
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="js/cookie.js"></script>
+  <script src="js/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    if (getCookie("Uid01")) {
+      var JSONdata = { "uid01": getCookie("Uid01") };
+      $.ajax({
+        type: "POST",
+        url: "20250211-webcontrol-.api.php?action=checkuid",
+        data: JSON.stringify(JSONdata),
+        dataType: "json",
+        success: function (data) {
+          if (data.state) {
+            $("#s02_username_text").text(data.data.Username);
+            $("#s02_logout_btn").removeClass("d-none");
+            if (data.data.role !== "seller") {
+              Swal.fire({
+                title: "無訪問權限",
+                text: "上架功能僅限賣家使用",
+                icon: "info"
+              }).then(function () {
+                window.location.href = "20250211-login-test.html";
+              });
+            }
+          } else {
+            Swal.fire({ title: "驗證失敗", icon: "error" });
+          }
+        },
+        error: function () {
+          Swal.fire({
+            title: "API介接錯誤",
+            text: "無法取得使用者資料",
+            icon: "error"
+          });
+        }
+      });
+    } else {
+      Swal.fire({
+        title: "請先登入會員",
+        icon: "info",
+        allowOutsideClick: false
+      }).then(function () {
+        location.href = "20250211-login-test.html";
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+
+      const form = document.getElementById('productForm');
+      const fileUploadDiv = document.getElementById('fileUploadDiv');
+      const fileInput = document.getElementById('fileInput');
+      const capturedImageInput = document.getElementById('captured_image');
+
+      // 圖片上傳預覽功能
+      fileInput.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+          if (window.lastImageURL) {
+            URL.revokeObjectURL(window.lastImageURL);
+          }
+          const imageURL = URL.createObjectURL(file);
+          window.lastImageURL = imageURL;
+          document.getElementById('imagePreview').innerHTML = `
+            <img src="${imageURL}" class="img-thumbnail" style="max-width: 200px;">
+          `;
+        }
+      });
+
+      // 監聽 ISBN 輸入欄位，呼叫 Google Books API
+      const isbnInput = document.getElementById('isbnInput');
+      isbnInput.addEventListener('change', function () {
+        const isbn = this.value.trim();
+        if (!isbn) return;
+        fetch('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn + '&qt=lang_switch&lang=zh-TW')
+          .then(response => response.json())
+          .then(data => {
+            if (data.totalItems > 0) {
+              const book = data.items[0].volumeInfo;
+              // 自動填入產品名稱
+              document.getElementById('productName').value = book.title || '';
+
+              // 設定產品分類：使用 API 回傳的分類，若下拉選單中無此選項則自動新增
+              if (book.categories && book.categories.length > 0) {
+                const categorySelect = document.querySelector('select[name="category"]');
+                const category = book.categories[0];
+                let exists = false;
+                Array.from(categorySelect.options).forEach(option => {
+                  if (option.value === category) {
+                    exists = true;
+                  }
+                });
+              }
+
+              // 建立產品描述內容：包含出版日期、作者、語言等資訊
+              let desc = "";
+              desc += "類型：" + (book.categories || "未知") + "\n";
+              desc += "出版日期：" + (book.publishedDate || "未知") + "\n";
+              desc += "語言：" + (book.language || "未知") + "\n";
+              desc += "作者：" + (book.authors ? book.authors.join("、") : "未知") + "\n";
+              // 將內容填入產品描述欄位
+              document.querySelector('textarea[name="description"]').value = desc;
+
+              // 如果取得圖片，則顯示預覽、將圖片 URL 存入隱藏欄位，並隱藏上傳欄位
+              if (book.imageLinks && book.imageLinks.thumbnail) {
+                const thumbURL = book.imageLinks.thumbnail;
+                document.getElementById('imagePreview').innerHTML = `
+                  <img src="${thumbURL}" class="img-thumbnail" style="max-width: 200px;">
+                `;
+                capturedImageInput.value = thumbURL;
+
+                // 隱藏檔案上傳欄位
+                fileUploadDiv.style.display = 'none';
+                // 禁用檔案上傳欄位，讓驗證忽略它
+                fileInput.disabled = true;
+              }
+            } else {
+              Swal.fire('找不到資料', '查無此 ISBN 對應的書籍資料', 'warning');
+            }
+          })
+          .catch(error => {
+            console.error('取得書籍資料錯誤:', error);
+            Swal.fire('錯誤', '無法取得書籍資料', 'error');
+          });
+      });
+
+      // 表單重置時：恢復圖片上傳欄位狀態
+      form.addEventListener('reset', (e) => {
+        document.getElementById('imagePreview').innerHTML = '';
+        fileUploadDiv.style.display = 'block';
+        fileInput.disabled = false;  // 重新啟用
+        fileInput.value = '';
+        form.classList.remove('was-validated');
+        capturedImageInput.value = '';
+        if (window.lastImageURL) {
+          URL.revokeObjectURL(window.lastImageURL);
+          delete window.lastImageURL;
+        }
+      });
+
+      // 表單提交時：透過 POST 呼叫後端 API 建立商品
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!form.checkValidity()) {
+          e.stopPropagation();
+          form.classList.add('was-validated');
+          return;
+        }
+        // 建立 FormData 物件（包含表單欄位與檔案）
+        const formData = new FormData(form);
+        // 這裡假設已取得賣家驗證憑證 uid01，請依實際情況將 uid01 加入
+        formData.append("uid01", getCookie("Uid01"));
+
+        fetch('20250211-webcontrol-.api.php?action=product_create', {
+          method: 'POST',
+          body: formData
+        })
+          .then(response => response.json())
+          .then(result => {
+            if (result.state) {
+              Swal.fire('成功', result.message, 'success');
+              form.reset();
+            } else {
+              Swal.fire('錯誤', result.message, 'error');
+            }
+          })
+          .catch(error => {
+            console.error('提交錯誤:', error);
+            Swal.fire('錯誤', '伺服器連接異常', 'error');
+          });
+      });
+    });
+
+    // 登出按鈕監聽
+    $("#s02_logout_btn").click(function () {
+      setCookie("Uid01", "", 7);
+      location.href = "20250211-login-test.html";
+    });
+  </script>
+</body>
+
+</html>
